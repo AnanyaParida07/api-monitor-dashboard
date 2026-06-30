@@ -1,0 +1,60 @@
+<h2>Response Time Trend</h2>
+@if(uptime) {
+
+<mat-card>
+
+  <mat-card-content>
+
+    <h2>
+
+      Uptime:
+      {{ uptime.uptimePercentage }}%
+
+    </h2>
+
+    <p>
+
+      Successful Checks:
+      {{ uptime.successfulChecks }}
+
+    </p>
+
+    <p>
+
+      Total Checks:
+      {{ uptime.totalChecks }}
+
+    </p>
+
+  </mat-card-content>
+
+</mat-card>
+
+}
+<apx-chart [series]="chartSeries" [chart]="chartDetails" [xaxis]="chartXAxis" [title]="chartTitle">
+</apx-chart>
+<table>
+
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Response Time</th>
+      <th>Checked At</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <tr *ngFor="let item of history">
+
+      <td>{{ item.status }}</td>
+
+      <td>{{ item.responseTime }} ms</td>
+
+      <td>{{ item.checkedAt }}</td>
+
+    </tr>
+
+  </tbody>
+
+</table>

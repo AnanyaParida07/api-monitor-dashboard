@@ -1,0 +1,28 @@
+table {
+  width: 100%;
+}
+
+.status-up {
+  color: green;
+  font-weight: 600;
+}
+
+.status-down {
+  color: red;
+  font-weight: 600;
+}
+
+.status-unknown {
+  color: gray;
+  font-weight: 600;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}

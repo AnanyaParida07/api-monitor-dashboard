@@ -1,0 +1,133 @@
+<div *ngIf="dashboard">
+
+    <h1>API Monitoring Dashboard</h1>
+    @if(loading) {
+
+    <div class="spinner-container">
+        <mat-spinner></mat-spinner>
+    </div>
+    } @else {
+
+    <div class="dashboard-grid">
+
+        <mat-card>
+
+            <mat-card-header>
+                <mat-card-title>
+                    Total APIs
+                </mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+
+                <h1>
+                    {{ dashboard.totalApis }}
+                </h1>
+
+            </mat-card-content>
+
+        </mat-card>
+
+        <mat-card>
+
+            <mat-card-header>
+                <mat-card-title>
+                    Healthy APIs
+                </mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+
+                <h1>
+                    {{ dashboard.healthyApis }}
+                </h1>
+
+            </mat-card-content>
+
+        </mat-card>
+
+        <mat-card>
+
+            <mat-card-header>
+                <mat-card-title>
+                    Failed APIs
+                </mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+
+                <h1>
+                    {{ dashboard.failedApis }}
+                </h1>
+
+            </mat-card-content>
+
+        </mat-card>
+
+        <mat-card>
+
+            <mat-card-header>
+                <mat-card-title>
+                    Avg Response
+                </mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+
+                <h1>
+                    {{ dashboard.averageResponseTime }}
+                    ms
+                </h1>
+
+            </mat-card-content>
+
+        </mat-card>
+
+    </div>
+    <mat-card>
+
+        <mat-card-header>
+
+            <mat-card-title>
+                API Status Distribution
+            </mat-card-title>
+
+        </mat-card-header>
+
+        <mat-card-content>
+
+            <apx-chart [series]="pieSeries" [chart]="pieChart" [labels]="pieLabels" [legend]="pieLegend"
+                [responsive]="pieResponsive">
+            </apx-chart>
+
+        </mat-card-content>
+
+    </mat-card>
+    <mat-card>
+
+        <mat-card-header>
+
+            <mat-card-title>
+
+                Response Time Trend
+
+            </mat-card-title>
+
+        </mat-card-header>
+
+        <mat-card-content>
+
+            <apx-chart [series]="responseSeries" [chart]="responseChart" [xaxis]="responseXAxis">
+
+            </apx-chart>
+
+        </mat-card-content>
+
+    </mat-card>
+    }
+    <p>
+        Last Updated:
+        {{ lastRefresh | date:'mediumTime' }}
+    </p>
+
+</div>

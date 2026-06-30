@@ -1,0 +1,118 @@
+<h2>Monitored APIs</h2>
+
+@if(loading) {
+
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+  
+} @else {
+
+<table mat-table [dataSource]="apis" class="mat-elevation-z8">
+
+    <!-- Name -->
+    <ng-container matColumnDef="name">
+
+        <th mat-header-cell *matHeaderCellDef>
+            Name
+        </th>
+
+        <td mat-cell *matCellDef="let api">
+            {{ api.name }}
+        </td>
+
+    </ng-container>
+
+    <!-- Status -->
+    <ng-container matColumnDef="status">
+
+        <th mat-header-cell *matHeaderCellDef>
+            Status
+        </th>
+
+        <td mat-cell *matCellDef="let api">
+
+            @if(api.latestStatus?.status === 'UP') {
+
+            <span class="status-up">
+                🟢 UP
+            </span>
+
+            } @else if(api.latestStatus?.status === 'DOWN') {
+
+            <span class="status-down">
+                🔴 DOWN
+            </span>
+
+            } @else {
+
+            <span class="status-unknown">
+                ⚪ UNKNOWN
+            </span>
+
+            }
+
+        </td>
+
+    </ng-container>
+
+    <!-- Response Time -->
+    <ng-container matColumnDef="responseTime">
+
+        <th mat-header-cell *matHeaderCellDef>
+            Response Time
+        </th>
+
+        <td mat-cell *matCellDef="let api">
+
+            {{ api.latestStatus?.responseTime || '-' }}
+
+            ms
+
+        </td>
+
+    </ng-container>
+
+    <!-- Actions -->
+    <ng-container matColumnDef="actions">
+
+        <th mat-header-cell *matHeaderCellDef>
+            Actions
+        </th>
+
+        <td mat-cell *matCellDef="let api">
+
+            <button mat-raised-button color="primary" [routerLink]="['/apis', api.id]">
+
+                View
+
+            </button>
+
+            &nbsp;
+
+            <button mat-raised-button color="accent" [routerLink]="['/apis/edit', api.id]">
+
+                Edit
+
+            </button>
+
+            &nbsp;
+
+            <button mat-raised-button color="warn" (click)="deleteApi(api.id)">
+
+                Delete
+
+            </button>
+
+        </td>
+
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns">
+    </tr>
+
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+    </tr>
+
+</table>
+}
