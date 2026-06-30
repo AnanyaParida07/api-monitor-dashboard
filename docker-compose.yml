@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: api-monitor-db
+
+    environment:
+      POSTGRES_DB: api_monitor
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: an1234
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  backend:
+    build: ./api-monitor
+    container_name: api-monitor-backend
+
+    ports:
+      - "7070:7070"
+
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/api_monitor
+      DB_USERNAME: postgres
+      DB_PASSWORD: an1234
+
+    depends_on:
+      - postgres
+
+  frontend:
+    build: ./api-monitor-ui
+    container_name: api-monitor-ui
+
+    ports:
+      - "4200:80"
+
+    depends_on:
+      - backend
+
+volumes:
+  postgres-data:
