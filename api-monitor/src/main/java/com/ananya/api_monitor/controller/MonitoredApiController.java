@@ -38,6 +38,7 @@ public class MonitoredApiController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
+        System.out.println("DELETE CONTROLLER CALLED");
         service.delete(id);
     }
 

@@ -3,8 +3,10 @@ package com.ananya.api_monitor.service;
 import com.ananya.api_monitor.dto.ApiRequest;
 import com.ananya.api_monitor.entity.MonitoredApi;
 import com.ananya.api_monitor.exception.ResourceNotFoundException;
+import com.ananya.api_monitor.repository.ApiCheckHistoryRepository;
 import com.ananya.api_monitor.repository.MonitoredApiRepository;
 import com.ananya.api_monitor.service.MonitoredApiService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ public class MonitoredApiServiceImpl
         implements MonitoredApiService {
 
     private final MonitoredApiRepository repository;
+    private final ApiCheckHistoryRepository historyRepository;
 
     @Override
     public MonitoredApi create(ApiRequest request) {
@@ -37,7 +40,9 @@ public class MonitoredApiServiceImpl
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
+        historyRepository.deleteByMonitoredApiId(id);
         repository.deleteById(id);
     }
 

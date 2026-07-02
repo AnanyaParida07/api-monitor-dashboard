@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -15,4 +15,13 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class AppComponent {
   title = 'api-monitor-ui';
+  private router = inject(Router);
+
+  logout() {
+
+    localStorage.removeItem('token');
+
+    this.router.navigate(['/login']);
+
+  }
 }
