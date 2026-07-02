@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class ApiListComponent implements OnInit {
   history: HistoryResponse[] = [];
   private apiService = inject(ApiMonitorService);
   private destroyRef = inject(DestroyRef);
+  protected auth = inject(AuthService);
 
 
   apis: MonitoredApi[] = [];

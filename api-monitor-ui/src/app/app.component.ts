@@ -2,11 +2,14 @@ import { Component, inject } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from './services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,
+  imports: [CommonModule,
+    RouterOutlet,
     RouterLink,
     MatToolbarModule,
     MatButtonModule],
@@ -16,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class AppComponent {
   title = 'api-monitor-ui';
   private router = inject(Router);
+  protected authService = inject(AuthService);
 
   logout() {
 

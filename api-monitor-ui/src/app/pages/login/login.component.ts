@@ -38,7 +38,7 @@ export class LoginComponent {
           response.token
         );
 
-this.router.navigate(['/']);
+        this.router.navigate(['/']);
       },
 
       error: (err) => {

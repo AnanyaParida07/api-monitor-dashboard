@@ -26,4 +26,50 @@ export class AuthService {
     );
   }
 
+  getToken(): string | null {
+
+  return localStorage.getItem('token');
+}
+
+isLoggedIn(): boolean {
+
+  return this.getToken() !== null;
+}
+
+logout(): void {
+
+  localStorage.removeItem('token');
+}
+
+private getPayload(): any {
+
+  const token = this.getToken();
+
+  if (!token) {
+    return null;
+  }
+
+  return JSON.parse(atob(token.split('.')[1]));
+}
+
+getUsername(): string {
+
+  return this.getPayload()?.sub;
+}
+
+getRole(): string {
+
+  return this.getPayload()?.role;
+}
+
+isAdmin(): boolean {
+
+  return this.getRole() === 'ADMIN';
+}
+
+isUser(): boolean {
+
+  return this.getRole() === 'USER';
+}
+
 }

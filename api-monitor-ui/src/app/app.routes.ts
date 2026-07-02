@@ -5,6 +5,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ApiFormComponent } from './pages/api-form/api-form.component';
 import { LoginComponent } from './pages/login/login.component';
 import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
     {
@@ -29,14 +30,15 @@ export const routes: Routes = [
     {
         path: 'apis/new',
         component: ApiFormComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard,adminGuard]
+        
 
     },
 
     {
         path: 'apis/edit/:id',
         component: ApiFormComponent,
-        canActivate: [authGuard]
+        canActivate: [authGuard,adminGuard]
 
     },
 
