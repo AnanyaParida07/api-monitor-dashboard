@@ -22,4 +22,6 @@ public interface ApiCheckHistoryRepository extends JpaRepository<ApiCheckHistory
 
     List<ApiCheckHistory>
     findTop20ByOrderByCheckedAtDesc();
+
+    void deleteByMonitoredApiId(Long apiId);
 }

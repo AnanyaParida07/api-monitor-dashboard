@@ -90,7 +90,7 @@
 
             &nbsp;
 
-            <button mat-raised-button color="accent" [routerLink]="['/apis/edit', api.id]">
+            <button   *ngIf="auth.isAdmin()" mat-raised-button color="accent" [routerLink]="['/apis/edit', api.id]">
 
                 Edit
 
@@ -98,7 +98,7 @@
 
             &nbsp;
 
-            <button mat-raised-button color="warn" (click)="deleteApi(api.id)">
+            <button   *ngIf="auth.isAdmin()" mat-raised-button color="warn" (click)="deleteApi(api.id)">
 
                 Delete
 

@@ -4,6 +4,19 @@
 
   <span class="spacer"></span>
 
+
+<span>
+
+{{ authService.getUsername() }}
+
+(
+
+{{ authService.getRole() }}
+
+)
+
+</span>
+
   <a mat-button routerLink="/">
     Dashboard
   </a>
@@ -12,9 +25,16 @@
     APIs
   </a>
 
-  <a mat-button routerLink="/apis/new">
+  <a *ngIf="authService.isAdmin()" mat-button routerLink="/apis/new">
     Create API
   </a>
+
+
+  <button (click)="logout()">
+
+Logout
+
+</button>
 
 </mat-toolbar>
 

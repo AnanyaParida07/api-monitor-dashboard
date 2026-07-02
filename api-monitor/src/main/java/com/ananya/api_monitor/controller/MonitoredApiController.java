@@ -6,6 +6,7 @@ import com.ananya.api_monitor.service.MonitoredApiService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class MonitoredApiController {
 
     private final MonitoredApiService service;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public MonitoredApi create(
             @Valid @RequestBody ApiRequest request) {
@@ -23,6 +25,7 @@ public class MonitoredApiController {
         return service.create(request);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public MonitoredApi update(
             @PathVariable Long id,
@@ -31,15 +34,18 @@ public class MonitoredApiController {
         return service.update(id, request);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        System.out.println("DELETE CONTROLLER CALLED");
+        service.delete(id);
+    }
+
     @GetMapping
     public List<MonitoredApi> getAll() {
         return service.findAll();
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
-    }
 
     @GetMapping("/{id}")
     public MonitoredApi getById(
