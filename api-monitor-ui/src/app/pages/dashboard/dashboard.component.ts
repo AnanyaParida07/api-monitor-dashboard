@@ -13,7 +13,14 @@ import {
   ApexLegend,
   NgApexchartsModule,
   ApexXAxis,
-  ApexAxisChartSeries
+  ApexAxisChartSeries,
+  ApexStroke,
+  ApexDataLabels,
+  ApexGrid,
+  ApexTooltip,
+  ApexFill,
+  ApexMarkers,
+  ApexYAxis
 } from 'ng-apexcharts';
 
 @Component({
@@ -34,9 +41,17 @@ export class DashboardComponent implements OnInit {
   public pieSeries: ApexNonAxisChartSeries = [];
 
   public pieChart: ApexChart = {
-    type: 'pie',
-    height: 350
+    type: 'donut',
+    height: 350,
+    toolbar: {
+      show: false
+    }
   };
+
+  public pieColors = [
+    '#10B981',
+    '#EF4444'
+  ];
 
   public pieLabels: string[] = [
     'Healthy',
@@ -61,21 +76,74 @@ export class DashboardComponent implements OnInit {
   public responseSeries:
     ApexAxisChartSeries = [];
 
-  public responseChart:
-    ApexChart = {
+  public responseChart: ApexChart = {
+    type: 'line',
+    height: 350,
+    toolbar: {
+      show: false
+    },
+    zoom: {
+      enabled: false
+    },
+    animations: {
+      enabled: true,
+      // easing: 'easeinout',
+      speed: 800
+    }
+  };
 
-      type: 'line',
+  public responseStroke: ApexStroke = {
+    curve: 'smooth',
+    width: 4
+  };
 
-      height: 350
+  public responseDataLabels: ApexDataLabels = {
+    enabled: false
+  };
 
-    };
+  public responseGrid: ApexGrid = {
+    borderColor: '#E5E7EB',
+    strokeDashArray: 5
+  };
 
-  public responseXAxis:
-    ApexXAxis = {
+  public responseTooltip: ApexTooltip = {
+    theme: 'light',
+    y: {
+      formatter: (value) => `${value} ms`
+    }
+  };
 
-      categories: []
+  public responseFill: ApexFill = {
+    type: 'gradient',
+    gradient: {
+      shadeIntensity: 1,
+      opacityFrom: 0.45,
+      opacityTo: 0.05,
+      stops: [0, 100]
+    }
+  };
 
-    };
+  public responseMarkers: ApexMarkers = {
+    size: 5,
+    hover: {
+      size: 8
+    }
+  };
+
+  public responseYAxis: ApexYAxis = {
+    title: {
+      text: 'Response Time (ms)'
+    }
+  };
+
+
+
+  public responseXAxis: ApexXAxis = {
+    categories: [],
+    labels: {
+      rotate: -45
+    }
+  };
 
   dashboard: DashboardResponse = {
     totalApis: 0,
@@ -83,8 +151,8 @@ export class DashboardComponent implements OnInit {
     failedApis: 0,
     averageResponseTime: 0
   };
-  loading = false;
 
+  loading = false;
   lastRefresh = new Date();
 
 
@@ -131,29 +199,29 @@ export class DashboardComponent implements OnInit {
         }
       });
 
-      this.dashboardService
-    .getResponseTrend()
-    .subscribe(data => {
+    this.dashboardService
+      .getResponseTrend()
+      .subscribe(data => {
 
-      this.responseSeries = [
-        {
-          name: 'Response Time',
+        this.responseSeries = [
+          {
+            name: 'Response Time',
 
-          data: data
-            .map(x => x.responseTime)
+            data: data
+              .map(x => x.responseTime)
+              .reverse()
+          }
+        ];
+
+        this.responseXAxis = {
+
+          categories: data
+            .map(x => x.timestamp)
             .reverse()
-        }
-      ];
 
-      this.responseXAxis = {
+        };
 
-        categories: data
-          .map(x => x.timestamp)
-          .reverse()
-
-      };
-
-    });
+      });
 
   }
 }

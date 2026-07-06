@@ -1,60 +1,185 @@
-<h2>Response Time Trend</h2>
-@if(uptime) {
+<div class="details-container">
 
-<mat-card>
+  <!-- Header -->
 
-  <mat-card-content>
+  <div class="page-header">
 
-    <h2>
+    <div>
 
-      Uptime:
-      {{ uptime.uptimePercentage }}%
+      <h1>API Performance</h1>
 
-    </h2>
+      <p>
+        Historical response times and uptime statistics.
+      </p>
 
-    <p>
+    </div>
 
-      Successful Checks:
-      {{ uptime.successfulChecks }}
+  </div>
 
-    </p>
+  @if(uptime){
 
-    <p>
+  <!-- Uptime Cards -->
 
-      Total Checks:
-      {{ uptime.totalChecks }}
+  <div class="stats-grid">
 
-    </p>
+    <mat-card class="stat-card uptime-card">
 
-  </mat-card-content>
+      <mat-card-content>
 
-</mat-card>
+        <div class="stat-title">
+          🟢 Uptime
+        </div>
 
-}
-<apx-chart [series]="chartSeries" [chart]="chartDetails" [xaxis]="chartXAxis" [title]="chartTitle">
-</apx-chart>
-<table>
+        <div class="stat-value">
 
-  <thead>
-    <tr>
-      <th>Status</th>
-      <th>Response Time</th>
-      <th>Checked At</th>
-    </tr>
-  </thead>
+          {{ uptime.uptimePercentage | number:'1.0-2' }}%
 
-  <tbody>
+        </div>
 
-    <tr *ngFor="let item of history">
+      </mat-card-content>
 
-      <td>{{ item.status }}</td>
+    </mat-card>
 
-      <td>{{ item.responseTime }} ms</td>
+    <mat-card class="stat-card success-card">
 
-      <td>{{ item.checkedAt }}</td>
+      <mat-card-content>
 
-    </tr>
+        <div class="stat-title">
+          ✅ Successful Checks
+        </div>
 
-  </tbody>
+        <div class="stat-value">
 
-</table>
+          {{ uptime.successfulChecks }}
+
+        </div>
+
+      </mat-card-content>
+
+    </mat-card>
+
+    <mat-card class="stat-card total-card">
+
+      <mat-card-content>
+
+        <div class="stat-title">
+          📊 Total Checks
+        </div>
+
+        <div class="stat-value">
+
+          {{ uptime.totalChecks }}
+
+        </div>
+
+      </mat-card-content>
+
+    </mat-card>
+
+  </div>
+
+  }
+
+  <!-- Chart -->
+
+  <mat-card class="chart-card">
+
+    <mat-card-header>
+
+      <mat-card-title>
+
+        📈 Response Time Trend
+
+      </mat-card-title>
+
+    </mat-card-header>
+
+    <mat-card-content>
+
+      <apx-chart [series]="chartSeries" [chart]="chartDetails" [xaxis]="chartXAxis" [stroke]="chartStroke"
+        [fill]="chartFill" [markers]="chartMarkers" [grid]="chartGrid" [tooltip]="chartTooltip"
+        [dataLabels]="chartDataLabels" [yaxis]="chartYAxis" [colors]="chartColors" [title]="chartTitle">
+
+      </apx-chart>
+
+    </mat-card-content>
+
+  </mat-card>
+
+  <!-- History -->
+
+  <mat-card class="history-card">
+
+    <mat-card-header>
+
+      <mat-card-title>
+
+        📋 Monitoring History
+
+      </mat-card-title>
+
+    </mat-card-header>
+
+    <mat-card-content>
+
+      <table class="history-table">
+
+        <thead>
+
+          <tr>
+
+            <th>Status</th>
+
+            <th>Response Time</th>
+
+            <th>Checked At</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let item of history">
+
+            <td>
+
+              <span class="status-badge" [ngClass]="{
+
+                            'status-up': item.status==='UP',
+
+                            'status-down': item.status==='DOWN',
+
+                            'status-unknown': item.status==='UNKNOWN'
+
+                            }">
+
+                {{ item.status }}
+
+              </span>
+
+            </td>
+
+            <td>
+
+              {{ item.responseTime }} ms
+
+            </td>
+
+            <td>
+
+              {{ item.checkedAt | date:'medium' }}
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </mat-card-content>
+
+  </mat-card>
+
+</div>

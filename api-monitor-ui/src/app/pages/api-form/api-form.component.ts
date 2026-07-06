@@ -35,8 +35,7 @@ export class ApiFormComponent {
   private apiService =
     inject(ApiMonitorService);
 
-  private router =
-    inject(Router);
+  protected router = inject(Router);
 
   isEditMode = false;
   apiId!: number;
@@ -69,21 +68,6 @@ export class ApiFormComponent {
     }
   }
 
-  // submit(): void {
-
-  //   if (this.form.invalid) {
-  //     return;
-  //   }
-
-  //   this.apiService
-  //     .createApi(this.form.value as any)
-  //     .subscribe(() => {
-
-  //       this.router.navigate(['/apis']);
-
-  //     });
-
-  // }
 
   submit(): void {
 

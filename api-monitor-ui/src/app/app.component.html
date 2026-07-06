@@ -1,40 +1,64 @@
-<mat-toolbar color="primary">
+<mat-toolbar class="navbar">
 
-  <span>API Monitor</span>
+  <div class="logo">
+
+    <span class="logo-icon">📡</span>
+
+    <span class="logo-text">
+      API Monitor
+    </span>
+
+  </div>
 
   <span class="spacer"></span>
 
+  <nav class="nav-links">
 
-<span>
+    <a mat-button routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
 
-{{ authService.getUsername() }}
+      Dashboard
 
-(
+    </a>
 
-{{ authService.getRole() }}
+    <a mat-button routerLink="/apis" routerLinkActive="active-link">
 
-)
+      APIs
 
-</span>
+    </a>
 
-  <a mat-button routerLink="/">
-    Dashboard
-  </a>
+    <a *ngIf="authService.isAdmin()" mat-button routerLink="/apis/new" routerLinkActive="active-link">
 
-  <a mat-button routerLink="/apis">
-    APIs
-  </a>
+      Create API
 
-  <a *ngIf="authService.isAdmin()" mat-button routerLink="/apis/new">
-    Create API
-  </a>
+    </a>
 
+  </nav>
 
-  <button (click)="logout()">
+  <div class="user-info">
 
-Logout
+    <div class="user-details">
 
-</button>
+      <span class="username">
+
+        {{ authService.getUsername() }}
+
+      </span>
+
+      <span class="role">
+
+        {{ authService.getRole() }}
+
+      </span>
+
+    </div>
+
+    <button mat-raised-button color="warn" (click)="logout()">
+
+      Logout
+
+    </button>
+
+  </div>
 
 </mat-toolbar>
 

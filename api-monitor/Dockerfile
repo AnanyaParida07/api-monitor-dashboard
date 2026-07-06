@@ -1,8 +1,24 @@
-FROM eclipse-temurin:21-jdk
+# ---------- Build Stage ----------
+FROM eclipse-temurin:21-jdk AS build
 
 WORKDIR /app
 
-COPY target/*.jar app.jar
+COPY .mvn .mvn
+COPY mvnw .
+COPY pom.xml .
+
+RUN chmod +x mvnw
+
+COPY src ./src
+
+RUN ./mvnw clean package -DskipTests
+
+# ---------- Runtime Stage ----------
+FROM eclipse-temurin:21-jre
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 7070
 

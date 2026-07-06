@@ -1,115 +1,155 @@
-<h2>Create API</h2>
-<mat-card>
+<div class="page-container">
 
-  <mat-card-header>
+    <div class="page-header">
 
-    <mat-card-title>
+        <div>
 
-      @if(isEditMode) {
+            <h1>
 
-        Edit API
+                @if(isEditMode){
 
-      } @else {
+                    Edit API
 
-        Create API
+                } @else {
 
-      }
+                    Create New API
 
-    </mat-card-title>
+                }
 
-  </mat-card-header>
+            </h1>
 
-  <mat-card-content>
+            <p>
 
-    <form
-      [formGroup]="form"
-      (ngSubmit)="submit()">
+                @if(isEditMode){
 
-      <mat-form-field appearance="outline">
+                    Update the API configuration and monitoring settings.
 
-        <mat-label>
-          API Name
-        </mat-label>
+                } @else {
 
-        <input
-          matInput
-          formControlName="name">
+                    Register a new API to monitor.
 
-      </mat-form-field>
+                }
 
-      <mat-form-field appearance="outline">
+            </p>
 
-        <mat-label>
-          URL
-        </mat-label>
+        </div>
 
-        <input
-          matInput
-          formControlName="url">
+    </div>
 
-      </mat-form-field>
+    <mat-card class="form-card">
 
-      <mat-form-field appearance="outline">
+        <mat-card-content>
 
-        <mat-label>
-          Method
-        </mat-label>
+            <form
+                [formGroup]="form"
+                (ngSubmit)="submit()">
 
-        <mat-select
-          formControlName="method">
+                <div class="form-grid">
 
-          <mat-option value="GET">
-            GET
-          </mat-option>
+                    <mat-form-field appearance="outline">
 
-          <mat-option value="POST">
-            POST
-          </mat-option>
+                        <mat-label>API Name</mat-label>
 
-          <mat-option value="PUT">
-            PUT
-          </mat-option>
+                        <input
+                            matInput
+                            formControlName="name">
 
-          <mat-option value="DELETE">
-            DELETE
-          </mat-option>
+                        <mat-hint>
 
-        </mat-select>
+                            Example: GitHub Users API
 
-      </mat-form-field>
+                        </mat-hint>
 
-      <mat-form-field appearance="outline">
+                    </mat-form-field>
 
-        <mat-label>
-          Expected Status
-        </mat-label>
+                    <mat-form-field appearance="outline">
 
-        <input
-          matInput
-          type="number"
-          formControlName="expectedStatus">
+                        <mat-label>HTTP Method</mat-label>
 
-      </mat-form-field>
+                        <mat-select formControlName="method">
 
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit">
+                            <mat-option value="GET">GET</mat-option>
 
-        @if(isEditMode) {
+                            <mat-option value="POST">POST</mat-option>
 
-          Update API
+                            <mat-option value="PUT">PUT</mat-option>
 
-        } @else {
+                            <mat-option value="DELETE">DELETE</mat-option>
 
-          Create API
+                        </mat-select>
 
-        }
+                    </mat-form-field>
 
-      </button>
+                </div>
 
-    </form>
+                <mat-form-field appearance="outline">
 
-  </mat-card-content>
+                    <mat-label>Endpoint URL</mat-label>
 
-</mat-card>
+                    <input
+                        matInput
+                        formControlName="url">
+
+                    <mat-hint>
+
+                        https://example.com/api/users
+
+                    </mat-hint>
+
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+
+                    <mat-label>Expected HTTP Status</mat-label>
+
+                    <input
+                        matInput
+                        type="number"
+                        formControlName="expectedStatus">
+
+                    <mat-hint>
+
+                        Usually 200 for successful requests
+
+                    </mat-hint>
+
+                </mat-form-field>
+
+                <div class="button-row">
+
+                    <button
+                        mat-stroked-button
+                        color="primary"
+                        type="button"
+                        (click)="router.navigate(['/apis'])">
+
+                        Cancel
+
+                    </button>
+
+                    <button
+                        mat-raised-button
+                        color="primary"
+                        type="submit">
+
+                        @if(isEditMode){
+
+                            Update API
+
+                        } @else {
+
+                            Create API
+
+                        }
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </mat-card-content>
+
+    </mat-card>
+
+</div>

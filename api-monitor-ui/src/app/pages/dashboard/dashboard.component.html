@@ -1,133 +1,210 @@
-<div *ngIf="dashboard">
+<div class="dashboard-container">
 
-    <h1>API Monitoring Dashboard</h1>
-    @if(loading) {
+    <!-- Header -->
+
+    <div class="dashboard-header">
+
+        <div>
+
+            <h1>API Monitoring Dashboard</h1>
+
+            <p>
+                Monitor the health and performance of your APIs in real time.
+            </p>
+
+        </div>
+
+        <div class="last-refresh">
+
+            <span>Last Updated</span>
+
+            <strong>
+
+                {{ lastRefresh | date:'mediumTime' }}
+
+            </strong>
+
+        </div>
+
+    </div>
+
+    @if(loading){
 
     <div class="spinner-container">
-        <mat-spinner></mat-spinner>
+
+        <mat-spinner diameter="60"></mat-spinner>
+
     </div>
-    } @else {
+
+    }
+
+    @else {
+
+    <!-- Statistics -->
 
     <div class="dashboard-grid">
 
-        <mat-card>
+        <mat-card class="dashboard-card total-card">
 
-            <mat-card-header>
-                <mat-card-title>
-                    Total APIs
-                </mat-card-title>
-            </mat-card-header>
+            <mat-card-title>
+
+                📡 Total APIs
+
+            </mat-card-title>
 
             <mat-card-content>
 
-                <h1>
+                <div class="card-value">
+
                     {{ dashboard.totalApis }}
-                </h1>
+
+                </div>
+
+                <div class="card-description">
+
+                    Registered APIs
+
+                </div>
 
             </mat-card-content>
 
         </mat-card>
 
-        <mat-card>
+        <mat-card class="dashboard-card healthy-card">
 
-            <mat-card-header>
-                <mat-card-title>
-                    Healthy APIs
-                </mat-card-title>
-            </mat-card-header>
+            <mat-card-title>
+
+                🟢 Healthy APIs
+
+            </mat-card-title>
 
             <mat-card-content>
 
-                <h1>
+                <div class="card-value">
+
                     {{ dashboard.healthyApis }}
-                </h1>
+
+                </div>
+
+                <div class="card-description">
+
+                    Currently Running
+
+                </div>
 
             </mat-card-content>
 
         </mat-card>
 
-        <mat-card>
+        <mat-card class="dashboard-card failed-card">
 
-            <mat-card-header>
-                <mat-card-title>
-                    Failed APIs
-                </mat-card-title>
-            </mat-card-header>
+            <mat-card-title>
+
+                🔴 Failed APIs
+
+            </mat-card-title>
 
             <mat-card-content>
 
-                <h1>
+                <div class="card-value">
+
                     {{ dashboard.failedApis }}
-                </h1>
+
+                </div>
+
+                <div class="card-description">
+
+                    Need Attention
+
+                </div>
 
             </mat-card-content>
 
         </mat-card>
 
-        <mat-card>
+        <mat-card class="dashboard-card response-card">
 
-            <mat-card-header>
-                <mat-card-title>
-                    Avg Response
-                </mat-card-title>
-            </mat-card-header>
+            <mat-card-title>
+
+                ⚡ Avg Response
+
+            </mat-card-title>
 
             <mat-card-content>
 
-                <h1>
-                    {{ dashboard.averageResponseTime }}
-                    ms
-                </h1>
+                <div class="card-value">
+
+                    {{ dashboard.averageResponseTime | number:'1.0-0' }}
+                    <span class="ms">ms</span>
+
+                </div>
+
+                <div class="card-description">
+
+                    Average Latency
+
+                </div>
 
             </mat-card-content>
 
         </mat-card>
 
     </div>
-    <mat-card>
 
-        <mat-card-header>
+    <!-- Charts -->
 
-            <mat-card-title>
-                API Status Distribution
-            </mat-card-title>
+    <div class="chart-grid">
 
-        </mat-card-header>
+        <mat-card class="chart-card">
 
-        <mat-card-content>
+            <mat-card-header>
 
-            <apx-chart [series]="pieSeries" [chart]="pieChart" [labels]="pieLabels" [legend]="pieLegend"
-                [responsive]="pieResponsive">
-            </apx-chart>
+                <mat-card-title>
 
-        </mat-card-content>
+                    📈 Response Time Trend
 
-    </mat-card>
-    <mat-card>
+                </mat-card-title>
 
-        <mat-card-header>
+            </mat-card-header>
 
-            <mat-card-title>
+            <mat-card-content>
 
-                Response Time Trend
+                <apx-chart [series]="responseSeries" [chart]="responseChart" [xaxis]="responseXAxis"
+                    [stroke]="responseStroke" [dataLabels]="responseDataLabels" [grid]="responseGrid"
+                    [tooltip]="responseTooltip" [fill]="responseFill" [markers]="responseMarkers"
+                    [yaxis]="responseYAxis">
 
-            </mat-card-title>
+                </apx-chart>
 
-        </mat-card-header>
+            </mat-card-content>
 
-        <mat-card-content>
+        </mat-card>
 
-            <apx-chart [series]="responseSeries" [chart]="responseChart" [xaxis]="responseXAxis">
+        <mat-card class="chart-card">
 
-            </apx-chart>
+            <mat-card-header>
 
-        </mat-card-content>
+                <mat-card-title>
 
-    </mat-card>
+                    🥧 API Status Distribution
+
+                </mat-card-title>
+
+            </mat-card-header>
+
+            <mat-card-content>
+
+                <apx-chart [series]="pieSeries" [chart]="pieChart" [labels]="pieLabels" [legend]="pieLegend"
+                    [responsive]="pieResponsive" [colors]="pieColors">
+
+                </apx-chart>
+
+            </mat-card-content>
+
+        </mat-card>
+
+    </div>
+
     }
-    <p>
-        Last Updated:
-        {{ lastRefresh | date:'mediumTime' }}
-    </p>
 
 </div>

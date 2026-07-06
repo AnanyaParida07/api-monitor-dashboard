@@ -10,12 +10,13 @@ import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../services/auth.service';
+import { MatCard } from '@angular/material/card';
 
 
 @Component({
   selector: 'app-api-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatButtonModule, MatTableModule, MatProgressSpinnerModule],
+  imports: [CommonModule, RouterLink, MatButtonModule, MatTableModule, MatProgressSpinnerModule,MatCard],
   templateUrl: './api-list.component.html',
   styleUrls: ['./api-list.component.scss']
 })

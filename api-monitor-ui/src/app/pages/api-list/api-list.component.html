@@ -1,118 +1,131 @@
-<h2>Monitored APIs</h2>
+<div class="page-header">
 
-@if(loading) {
+    <div>
 
-  <div class="spinner-container">
+        <h1>Monitored APIs</h1>
+
+        <p>
+            Monitor, manage and inspect all configured APIs.
+        </p>
+
+    </div>
+
+</div>
+
+@if(loading){
+
+<div class="spinner-container">
+
     <mat-spinner></mat-spinner>
-  </div>
-  
-} @else {
 
-<table mat-table [dataSource]="apis" class="mat-elevation-z8">
+</div>
 
-    <!-- Name -->
-    <ng-container matColumnDef="name">
+}
 
-        <th mat-header-cell *matHeaderCellDef>
-            Name
-        </th>
+@else {
 
-        <td mat-cell *matCellDef="let api">
-            {{ api.name }}
-        </td>
+<div class="api-grid">
 
-    </ng-container>
+    @for(api of apis; track api.id){
 
-    <!-- Status -->
-    <ng-container matColumnDef="status">
+    <mat-card class="api-card">
 
-        <th mat-header-cell *matHeaderCellDef>
-            Status
-        </th>
+        <div class="api-header">
 
-        <td mat-cell *matCellDef="let api">
+            <div>
 
-            @if(api.latestStatus?.status === 'UP') {
+                <h2>
 
-            <span class="status-up">
+                    {{ api.name }}
+
+                </h2>
+
+                <span class="method">
+
+                    {{ api.method }}
+
+                </span>
+
+            </div>
+
+            @if(api.latestStatus?.status==='UP'){
+
+            <span class="status up">
+
                 🟢 UP
-            </span>
 
-            } @else if(api.latestStatus?.status === 'DOWN') {
-
-            <span class="status-down">
-                🔴 DOWN
-            </span>
-
-            } @else {
-
-            <span class="status-unknown">
-                ⚪ UNKNOWN
             </span>
 
             }
 
-        </td>
+            @else if(api.latestStatus?.status==='DOWN'){
 
-    </ng-container>
+            <span class="status down">
 
-    <!-- Response Time -->
-    <ng-container matColumnDef="responseTime">
+                🔴 DOWN
 
-        <th mat-header-cell *matHeaderCellDef>
-            Response Time
-        </th>
+            </span>
 
-        <td mat-cell *matCellDef="let api">
+            }
 
-            {{ api.latestStatus?.responseTime || '-' }}
+            @else{
+
+            <span class="status unknown">
+
+                ⚪ UNKNOWN
+
+            </span>
+
+            }
+
+        </div>
+
+        <div class="url">
+
+            {{ api.url }}
+
+        </div>
+
+        <div class="response">
+
+            ⚡
+
+            {{ api.latestStatus?.responseTime ?? '-' }}
 
             ms
 
-        </td>
+        </div>
 
-    </ng-container>
+        <div class="actions">
 
-    <!-- Actions -->
-    <ng-container matColumnDef="actions">
-
-        <th mat-header-cell *matHeaderCellDef>
-            Actions
-        </th>
-
-        <td mat-cell *matCellDef="let api">
-
-            <button mat-raised-button color="primary" [routerLink]="['/apis', api.id]">
+            <button mat-stroked-button color="primary" [routerLink]="['/apis',api.id]">
 
                 View
 
             </button>
 
-            &nbsp;
+            @if(auth.isAdmin()){
 
-            <button   *ngIf="auth.isAdmin()" mat-raised-button color="accent" [routerLink]="['/apis/edit', api.id]">
+            <button mat-stroked-button color="accent" [routerLink]="['/apis/edit',api.id]">
 
                 Edit
 
             </button>
 
-            &nbsp;
-
-            <button   *ngIf="auth.isAdmin()" mat-raised-button color="warn" (click)="deleteApi(api.id)">
+            <button mat-flat-button color="warn" (click)="deleteApi(api.id)">
 
                 Delete
 
             </button>
 
-        </td>
+            }
 
-    </ng-container>
+        </div>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns">
-    </tr>
+    </mat-card>
 
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
-    </tr>
+    }
 
-</table>
+</div>
+
 }
