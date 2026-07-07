@@ -4,7 +4,20 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiMonitorService } from '../../services/api-monitor.service';
 import { HistoryResponse } from '../../models/history-response ';
 import { MatCardModule } from '@angular/material/card';
-import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexTitleSubtitle, NgApexchartsModule, ApexStroke, ApexYAxis, ApexTooltip, ApexDataLabels, ApexGrid, ApexMarkers, ApexFill } from 'ng-apexcharts';
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexTitleSubtitle,
+  NgApexchartsModule,
+  ApexStroke,
+  ApexYAxis,
+  ApexTooltip,
+  ApexDataLabels,
+  ApexGrid,
+  ApexMarkers,
+  ApexFill,
+} from 'ng-apexcharts';
 import { UptimeResponse } from '../../models/uptime-response';
 
 @Component({
@@ -12,11 +25,9 @@ import { UptimeResponse } from '../../models/uptime-response';
   standalone: true,
   imports: [CommonModule, NgApexchartsModule, MatCardModule],
   templateUrl: './api-details.component.html',
-  styleUrls: ['./api-details.component.scss']
+  styleUrls: ['./api-details.component.scss'],
 })
-
 export class ApiDetailsComponent implements OnInit {
-
   private route = inject(ActivatedRoute);
   private apiService = inject(ApiMonitorService);
   apiId!: number;
@@ -26,125 +37,83 @@ export class ApiDetailsComponent implements OnInit {
   public chartSeries: ApexAxisChartSeries = [
     {
       name: 'Response Time',
-      data: []
-    }
+      data: [],
+    },
   ];
 
   public chartDetails: ApexChart = {
-
     type: 'area',
-
     height: 380,
-
     toolbar: {
-      show: false
+      show: false,
     },
-
     zoom: {
-      enabled: false
+      enabled: false,
     },
-
     animations: {
       enabled: true,
-      // easing: 'easeinout',
-      speed: 800
-    }
-
-  };
-  public chartStroke: ApexStroke = {
-
-    curve: 'smooth',
-
-    width: 4
-
-  };
-  public chartFill: ApexFill = {
-
-    type: 'gradient',
-
-    gradient: {
-
-      shadeIntensity: 1,
-
-      opacityFrom: 0.45,
-
-      opacityTo: 0.05,
-
-      stops: [0, 100]
-
-    }
-
-  };
-  public chartMarkers: ApexMarkers = {
-
-    size: 5,
-
-    strokeWidth: 2,
-
-    hover: {
-
-      size: 8
-
-    }
-
-  };
-  public chartGrid: ApexGrid = {
-
-    borderColor: '#E5E7EB',
-
-    strokeDashArray: 5
-
-  };
-  public chartDataLabels: ApexDataLabels = {
-
-    enabled: false
-
-  };
-  public chartTooltip: ApexTooltip = {
-
-    x: {
-
-      format: 'dd MMM yyyy HH:mm:ss'
-
+      speed: 800,
     },
+  };
 
+  public chartStroke: ApexStroke = {
+    curve: 'smooth',
+    width: 4,
+  };
+
+  public chartFill: ApexFill = {
+    type: 'gradient',
+    gradient: {
+      shadeIntensity: 1,
+      opacityFrom: 0.45,
+      opacityTo: 0.05,
+      stops: [0, 100],
+    },
+  };
+
+  public chartMarkers: ApexMarkers = {
+    size: 5,
+    strokeWidth: 2,
+    hover: {
+      size: 8,
+    },
+  };
+
+  public chartGrid: ApexGrid = {
+    borderColor: '#E5E7EB',
+    strokeDashArray: 5,
+  };
+
+  public chartDataLabels: ApexDataLabels = {
+    enabled: false,
+  };
+
+  public chartTooltip: ApexTooltip = {
+    x: {
+      format: 'dd MMM yyyy HH:mm:ss',
+    },
     y: {
-
-      formatter: (value) => `${value} ms`
-
-    }
-
+      formatter: (value) => `${value} ms`,
+    },
   };
+
   public chartYAxis: ApexYAxis = {
-
     title: {
-
-      text: 'Response Time (ms)'
-
-    }
-
+      text: 'Response Time (ms)',
+    },
   };
-
 
   public chartXAxis: ApexXAxis = {
-
     categories: [],
-
     labels: {
-
-      rotate: -45
-
-    }
-
+      rotate: -45,
+    },
   };
-  public chartColors = [
 
-    '#2563EB'
-
-  ];
+  public chartColors = ['#2563EB'];
 
   public chartTitle: ApexTitleSubtitle = {
-    text: 'Response Time Trend'
+    text: 'Response Time Trend',
   };
 
   ngOnInit(): void {
@@ -154,53 +123,39 @@ export class ApiDetailsComponent implements OnInit {
     }
     this.apiId = Number(id);
     this.loadHistory();
-    this.apiService
-      .getUptime(this.apiId)
-      .subscribe(response => {
-        this.uptime = response;
-      });
+    this.apiService.getUptime(this.apiId).subscribe((response) => {
+      this.uptime = response;
+    });
   }
 
-loadHistory(): void {
-
-  this.apiService
-    .getHistory(this.apiId)
-    .subscribe(data => {
-
+  loadHistory(): void {
+    this.apiService.getHistory(this.apiId).subscribe((data) => {
       this.history = data;
-
-      // Show only the latest 20 history records
       const latestData = data.slice(0, 20).reverse();
 
       this.chartSeries = [
         {
           name: 'Response Time (ms)',
-          data: latestData.map(item => item.responseTime)
-        }
+          data: latestData.map((item) => item.responseTime),
+        },
       ];
 
       this.chartXAxis = {
-
-        categories: latestData.map(item =>
+        categories: latestData.map((item) =>
           new Date(item.checkedAt).toLocaleTimeString([], {
             hour: '2-digit',
-            minute: '2-digit'
-          })
+            minute: '2-digit',
+          }),
         ),
 
         labels: {
           rotate: 0,
           hideOverlappingLabels: true,
           style: {
-            fontSize: '12px'
-          }
-        }
-
+            fontSize: '12px',
+          },
+        },
       };
-
     });
-
-}
-
-  
+  }
 }

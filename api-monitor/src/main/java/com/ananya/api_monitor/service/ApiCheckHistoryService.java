@@ -8,9 +8,7 @@ import com.ananya.api_monitor.entity.ApiCheckHistory;
 import java.util.List;
 
 public interface ApiCheckHistoryService {
-//    List<ApiCheckHistory> getHistory(Long apiId);
     List<HistoryResponse> getHistory(Long apiId);
     LatestStatusResponse getLatestStatus(Long apiId);
-
     UptimeResponse getUptime(Long apiId);
 }

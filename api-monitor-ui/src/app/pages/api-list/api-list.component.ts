@@ -12,42 +12,37 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../services/auth.service';
 import { MatCard } from '@angular/material/card';
 
-
 @Component({
   selector: 'app-api-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatButtonModule, MatTableModule, MatProgressSpinnerModule,MatCard],
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatButtonModule,
+    MatTableModule,
+    MatProgressSpinnerModule,
+    MatCard,
+  ],
   templateUrl: './api-list.component.html',
-  styleUrls: ['./api-list.component.scss']
+  styleUrls: ['./api-list.component.scss'],
 })
 export class ApiListComponent implements OnInit {
-
   history: HistoryResponse[] = [];
   private apiService = inject(ApiMonitorService);
   private destroyRef = inject(DestroyRef);
   protected auth = inject(AuthService);
 
-
   apis: MonitoredApi[] = [];
-  displayedColumns: string[] = [
-    'name',
-    'status',
-    'responseTime',
-    'actions'
-  ];
+  displayedColumns: string[] = ['name', 'status', 'responseTime', 'actions'];
   loading = false;
 
   ngOnInit(): void {
     this.loadApis();
 
     interval(30000)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef)
-      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-
         this.loadApis();
-
       });
   }
 
@@ -55,44 +50,32 @@ export class ApiListComponent implements OnInit {
     if (!confirm('Delete this API?')) {
       return;
     }
-    this.apiService
-      .deleteApi(id)
-      .subscribe(() => {
-        this.loadApis();
-      });
+    this.apiService.deleteApi(id).subscribe(() => {
+      this.loadApis();
+    });
   }
-
 
   loadApis() {
     this.loading = true;
-    this.apiService.getApis()
-      .subscribe(data => {
-
-        this.apis = data;
-        this.apis.forEach(api => {
-
-          this.apiService
-            .getLatestStatus(api.id)
-            .subscribe({
-              next: (status) => {
-
-                api.latestStatus = status;
-                this.loading = false;
-
-              },
-              error: () => {
-
-                api.latestStatus = {
-                  status: 'UNKNOWN',
-                  statusCode: 0,
-                  responseTime: 0,
-                  checkedAt: ''
-                };
-                this.loading = false;
-
-              }
-            });
+    this.apiService.getApis().subscribe((data) => {
+      this.apis = data;
+      this.apis.forEach((api) => {
+        this.apiService.getLatestStatus(api.id).subscribe({
+          next: (status) => {
+            api.latestStatus = status;
+            this.loading = false;
+          },
+          error: () => {
+            api.latestStatus = {
+              status: 'UNKNOWN',
+              statusCode: 0,
+              responseTime: 0,
+              checkedAt: '',
+            };
+            this.loading = false;
+          },
         });
       });
+    });
   }
 }

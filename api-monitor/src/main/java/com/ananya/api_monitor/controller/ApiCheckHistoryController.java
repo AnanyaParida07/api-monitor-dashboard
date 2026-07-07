@@ -19,31 +19,19 @@ public class ApiCheckHistoryController {
 
     private final ApiCheckHistoryService service;
 
-//    @GetMapping("/{apiId}")
-//    public List<ApiCheckHistory> getHistory(
-//            @PathVariable Long apiId) {
-//
-//        return service.getHistory(apiId);
-//    }
-
     @GetMapping("/{apiId}")
     public List<HistoryResponse> getHistory(
             @PathVariable Long apiId) {
-
         return service.getHistory(apiId);
     }
     @GetMapping("/{apiId}/latest")
     public LatestStatusResponse getLatestStatus(
             @PathVariable Long apiId) {
-
         return service.getLatestStatus(apiId);
     }
     @GetMapping("/{apiId}/uptime")
     public UptimeResponse getUptime(
             @PathVariable Long apiId) {
-
         return service.getUptime(apiId);
     }
-
-
 }

@@ -12,10 +12,7 @@ import lombok.NoArgsConstructor;
 public class DashboardResponse {
 
     private Long totalApis;
-
     private Long healthyApis;
-
     private Long failedApis;
-
     private Double averageResponseTime;
 }

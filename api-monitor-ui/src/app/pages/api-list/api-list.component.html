@@ -1,131 +1,78 @@
 <div class="page-header">
+  <div>
+    <h1>Monitored APIs</h1>
 
-    <div>
-
-        <h1>Monitored APIs</h1>
-
-        <p>
-            Monitor, manage and inspect all configured APIs.
-        </p>
-
-    </div>
-
+    <p>Monitor, manage and inspect all configured APIs.</p>
+  </div>
 </div>
 
-@if(loading){
-
-<div class="spinner-container">
-
+@if (loading) {
+  <div class="spinner-container">
     <mat-spinner></mat-spinner>
+  </div>
 
-</div>
-
-}
-
-@else {
-
-<div class="api-grid">
-
-    @for(api of apis; track api.id){
-
-    <mat-card class="api-card">
-
+} @else {
+  <div class="api-grid">
+    @for (api of apis; track api.id) {
+      <mat-card class="api-card">
         <div class="api-header">
+          <div>
+            <h2>
+              {{ api.name }}
+            </h2>
 
-            <div>
-
-                <h2>
-
-                    {{ api.name }}
-
-                </h2>
-
-                <span class="method">
-
-                    {{ api.method }}
-
-                </span>
-
-            </div>
-
-            @if(api.latestStatus?.status==='UP'){
-
-            <span class="status up">
-
-                🟢 UP
-
+            <span class="method">
+              {{ api.method }}
             </span>
+          </div>
 
-            }
+          @if (api.latestStatus?.status === "UP") {
+            <span class="status up"> 🟢 UP </span>
 
-            @else if(api.latestStatus?.status==='DOWN'){
+          } @else if (api.latestStatus?.status === "DOWN") {
+            <span class="status down"> 🔴 DOWN </span>
 
-            <span class="status down">
-
-                🔴 DOWN
-
-            </span>
-
-            }
-
-            @else{
-
-            <span class="status unknown">
-
-                ⚪ UNKNOWN
-
-            </span>
-
-            }
-
+          } @else {
+            <span class="status unknown"> ⚪ UNKNOWN </span>
+          }
         </div>
 
         <div class="url">
-
-            {{ api.url }}
-
+          {{ api.url }}
         </div>
 
         <div class="response">
+          ⚡
 
-            ⚡
+          {{ api.latestStatus?.responseTime ?? "-" }}
 
-            {{ api.latestStatus?.responseTime ?? '-' }}
-
-            ms
-
+          ms
         </div>
 
         <div class="actions">
+          <button
+            mat-stroked-button
+            color="primary"
+            [routerLink]="['/apis', api.id]"
+          >
+            View
+          </button>
 
-            <button mat-stroked-button color="primary" [routerLink]="['/apis',api.id]">
-
-                View
-
-            </button>
-
-            @if(auth.isAdmin()){
-
-            <button mat-stroked-button color="accent" [routerLink]="['/apis/edit',api.id]">
-
-                Edit
-
+          @if (auth.isAdmin()) {
+            <button
+              mat-stroked-button
+              color="accent"
+              [routerLink]="['/apis/edit', api.id]"
+            >
+              Edit
             </button>
 
             <button mat-flat-button color="warn" (click)="deleteApi(api.id)">
-
-                Delete
-
+              Delete
             </button>
-
-            }
-
+          }
         </div>
-
-    </mat-card>
-
+      </mat-card>
     }
-
-</div>
-
+  </div>
 }

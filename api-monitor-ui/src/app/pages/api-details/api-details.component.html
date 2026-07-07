@@ -1,185 +1,120 @@
 <div class="details-container">
-
   <!-- Header -->
 
   <div class="page-header">
-
     <div>
-
       <h1>API Performance</h1>
 
-      <p>
-        Historical response times and uptime statistics.
-      </p>
-
+      <p>Historical response times and uptime statistics.</p>
     </div>
-
   </div>
 
-  @if(uptime){
+  @if (uptime) {
+    <!-- Uptime Cards -->
 
-  <!-- Uptime Cards -->
+    <div class="stats-grid">
+      <mat-card class="stat-card uptime-card">
+        <mat-card-content>
+          <div class="stat-title">🟢 Uptime</div>
 
-  <div class="stats-grid">
+          <div class="stat-value">
+            {{ uptime.uptimePercentage | number: "1.0-2" }}%
+          </div>
+        </mat-card-content>
+      </mat-card>
 
-    <mat-card class="stat-card uptime-card">
+      <mat-card class="stat-card success-card">
+        <mat-card-content>
+          <div class="stat-title">✅ Successful Checks</div>
 
-      <mat-card-content>
+          <div class="stat-value">
+            {{ uptime.successfulChecks }}
+          </div>
+        </mat-card-content>
+      </mat-card>
 
-        <div class="stat-title">
-          🟢 Uptime
-        </div>
+      <mat-card class="stat-card total-card">
+        <mat-card-content>
+          <div class="stat-title">📊 Total Checks</div>
 
-        <div class="stat-value">
-
-          {{ uptime.uptimePercentage | number:'1.0-2' }}%
-
-        </div>
-
-      </mat-card-content>
-
-    </mat-card>
-
-    <mat-card class="stat-card success-card">
-
-      <mat-card-content>
-
-        <div class="stat-title">
-          ✅ Successful Checks
-        </div>
-
-        <div class="stat-value">
-
-          {{ uptime.successfulChecks }}
-
-        </div>
-
-      </mat-card-content>
-
-    </mat-card>
-
-    <mat-card class="stat-card total-card">
-
-      <mat-card-content>
-
-        <div class="stat-title">
-          📊 Total Checks
-        </div>
-
-        <div class="stat-value">
-
-          {{ uptime.totalChecks }}
-
-        </div>
-
-      </mat-card-content>
-
-    </mat-card>
-
-  </div>
-
+          <div class="stat-value">
+            {{ uptime.totalChecks }}
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
   }
 
   <!-- Chart -->
 
   <mat-card class="chart-card">
-
     <mat-card-header>
-
-      <mat-card-title>
-
-        📈 Response Time Trend
-
-      </mat-card-title>
-
+      <mat-card-title> 📈 Response Time Trend </mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
-
-      <apx-chart [series]="chartSeries" [chart]="chartDetails" [xaxis]="chartXAxis" [stroke]="chartStroke"
-        [fill]="chartFill" [markers]="chartMarkers" [grid]="chartGrid" [tooltip]="chartTooltip"
-        [dataLabels]="chartDataLabels" [yaxis]="chartYAxis" [colors]="chartColors" [title]="chartTitle">
-
+      <apx-chart
+        [series]="chartSeries"
+        [chart]="chartDetails"
+        [xaxis]="chartXAxis"
+        [stroke]="chartStroke"
+        [fill]="chartFill"
+        [markers]="chartMarkers"
+        [grid]="chartGrid"
+        [tooltip]="chartTooltip"
+        [dataLabels]="chartDataLabels"
+        [yaxis]="chartYAxis"
+        [colors]="chartColors"
+        [title]="chartTitle"
+      >
       </apx-chart>
-
     </mat-card-content>
-
   </mat-card>
 
   <!-- History -->
 
   <mat-card class="history-card">
-
     <mat-card-header>
-
-      <mat-card-title>
-
-        📋 Monitoring History
-
-      </mat-card-title>
-
+      <mat-card-title> 📋 Monitoring History </mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
-
       <table class="history-table">
-
         <thead>
-
           <tr>
-
             <th>Status</th>
 
             <th>Response Time</th>
 
             <th>Checked At</th>
-
           </tr>
-
         </thead>
 
         <tbody>
-
           <tr *ngFor="let item of history">
-
             <td>
+              <span
+                class="status-badge"
+                [ngClass]="{
+                  'status-up': item.status === 'UP',
 
-              <span class="status-badge" [ngClass]="{
+                  'status-down': item.status === 'DOWN',
 
-                            'status-up': item.status==='UP',
-
-                            'status-down': item.status==='DOWN',
-
-                            'status-unknown': item.status==='UNKNOWN'
-
-                            }">
-
+                  'status-unknown': item.status === 'UNKNOWN',
+                }"
+              >
                 {{ item.status }}
-
               </span>
-
             </td>
+
+            <td>{{ item.responseTime }} ms</td>
 
             <td>
-
-              {{ item.responseTime }} ms
-
+              {{ item.checkedAt | date: "medium" }}
             </td>
-
-            <td>
-
-              {{ item.checkedAt | date:'medium' }}
-
-            </td>
-
           </tr>
-
         </tbody>
-
       </table>
-
     </mat-card-content>
-
   </mat-card>
-
 </div>

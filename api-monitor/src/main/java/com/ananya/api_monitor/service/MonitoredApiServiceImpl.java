@@ -5,7 +5,6 @@ import com.ananya.api_monitor.entity.MonitoredApi;
 import com.ananya.api_monitor.exception.ResourceNotFoundException;
 import com.ananya.api_monitor.repository.ApiCheckHistoryRepository;
 import com.ananya.api_monitor.repository.MonitoredApiRepository;
-import com.ananya.api_monitor.service.MonitoredApiService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,8 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MonitoredApiServiceImpl
-        implements MonitoredApiService {
+public class MonitoredApiServiceImpl implements MonitoredApiService {
 
     private final MonitoredApiRepository repository;
     private final ApiCheckHistoryRepository historyRepository;
@@ -28,8 +26,7 @@ public class MonitoredApiServiceImpl
                 .url(request.getUrl())
                 .method(request.getMethod())
                 .expectedStatus(request.getExpectedStatus())
-                .active(true)
-                .build();
+                .active(true).build();
 
         return repository.save(api);
     }
@@ -48,25 +45,16 @@ public class MonitoredApiServiceImpl
 
     @Override
     public MonitoredApi update(Long id, ApiRequest request) {
-
-        MonitoredApi api = repository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("API not found"));
-
+        MonitoredApi api = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("API not found"));
         api.setName(request.getName());
         api.setUrl(request.getUrl());
         api.setMethod(request.getMethod());
         api.setExpectedStatus(request.getExpectedStatus());
-
         return repository.save(api);
     }
 
     @Override
     public MonitoredApi getById(Long id) {
-
-        return repository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "API not found"));
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("API not found"));
     }
 }

@@ -10,7 +10,6 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ApiMonitorService } from '../../services/api-monitor.service';
 
-
 @Component({
   selector: 'app-api-form',
   standalone: true,
@@ -21,20 +20,15 @@ import { ApiMonitorService } from '../../services/api-monitor.service';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   templateUrl: './api-form.component.html',
-  styleUrls: ['./api-form.component.scss']
+  styleUrls: ['./api-form.component.scss'],
 })
 export class ApiFormComponent {
-  private route =
-    inject(ActivatedRoute);
-
+  private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
-
-  private apiService =
-    inject(ApiMonitorService);
-
+  private apiService = inject(ApiMonitorService);
   protected router = inject(Router);
 
   isEditMode = false;
@@ -44,60 +38,40 @@ export class ApiFormComponent {
     name: ['', Validators.required],
     url: ['', Validators.required],
     method: ['GET', Validators.required],
-    expectedStatus: [200, Validators.required]
+    expectedStatus: [200, Validators.required],
   });
 
   ngOnInit(): void {
-    const id =
-      this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
       this.isEditMode = true;
       this.apiId = Number(id);
-      this.apiService
-        .getApiById(this.apiId)
-        .subscribe(api => {
-          this.form.patchValue({
-            name: api.name,
-            url: api.url,
-            method: api.method,
-            expectedStatus:
-              api.expectedStatus
-          });
+      this.apiService.getApiById(this.apiId).subscribe((api) => {
+        this.form.patchValue({
+          name: api.name,
+          url: api.url,
+          method: api.method,
+          expectedStatus: api.expectedStatus,
         });
+      });
     }
   }
 
-
   submit(): void {
-
     if (this.form.invalid) {
       return;
     }
-
     if (this.isEditMode) {
       this.apiService
-        .updateApi(
-          this.apiId,
-          this.form.value as any
-        )
+        .updateApi(this.apiId, this.form.value as any)
         .subscribe(() => {
-          this.router.navigate(
-            ['/apis']
-          );
+          this.router.navigate(['/apis']);
         });
-
     } else {
-      this.apiService
-        .createApi(
-          this.form.value as any
-        )
-        .subscribe(() => {
-          this.router.navigate(
-            ['/apis']
-          );
-        });
+      this.apiService.createApi(this.form.value as any).subscribe(() => {
+        this.router.navigate(['/apis']);
+      });
     }
   }
-
 }

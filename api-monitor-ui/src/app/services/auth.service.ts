@@ -4,72 +4,55 @@ import { LoginRequest } from '../models/login-request';
 import { LoginResponse } from '../models/login-response';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   private http = inject(HttpClient);
-
   private baseUrl = 'http://localhost:7070/api/auth';
 
   login(request: LoginRequest) {
-    return this.http.post<LoginResponse>(
-      `${this.baseUrl}/login`,
-      request
-    );
+    return this.http.post<LoginResponse>(`${this.baseUrl}/login`, request);
   }
 
   register(request: LoginRequest) {
-    return this.http.post(
-      `${this.baseUrl}/register`,
-      request
-    );
+    return this.http.post(`${this.baseUrl}/register`, request);
   }
 
   getToken(): string | null {
-
-  return localStorage.getItem('token');
-}
-
-isLoggedIn(): boolean {
-
-  return this.getToken() !== null;
-}
-
-logout(): void {
-
-  localStorage.removeItem('token');
-}
-
-private getPayload(): any {
-
-  const token = this.getToken();
-
-  if (!token) {
-    return null;
+    return localStorage.getItem('token');
   }
 
-  return JSON.parse(atob(token.split('.')[1]));
-}
+  isLoggedIn(): boolean {
+    return this.getToken() !== null;
+  }
 
-getUsername(): string {
+  logout(): void {
+    localStorage.removeItem('token');
+  }
 
-  return this.getPayload()?.sub;
-}
+  private getPayload(): any {
+    const token = this.getToken();
 
-getRole(): string {
+    if (!token) {
+      return null;
+    }
 
-  return this.getPayload()?.role;
-}
+    return JSON.parse(atob(token.split('.')[1]));
+  }
 
-isAdmin(): boolean {
+  getUsername(): string {
+    return this.getPayload()?.sub;
+  }
 
-  return this.getRole() === 'ADMIN';
-}
+  getRole(): string {
+    return this.getPayload()?.role;
+  }
 
-isUser(): boolean {
+  isAdmin(): boolean {
+    return this.getRole() === 'ADMIN';
+  }
 
-  return this.getRole() === 'USER';
-}
-
+  isUser(): boolean {
+    return this.getRole() === 'USER';
+  }
 }

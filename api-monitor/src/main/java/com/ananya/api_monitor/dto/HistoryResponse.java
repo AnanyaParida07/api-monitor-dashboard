@@ -14,14 +14,9 @@ import java.time.LocalDateTime;
 public class HistoryResponse {
 
     private Long id;
-
     private String status;
-
     private Integer statusCode;
-
     private Long responseTime;
-
     private String errorMessage;
-
     private LocalDateTime checkedAt;
 }

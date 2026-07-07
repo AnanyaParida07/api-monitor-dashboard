@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class ResponseTimePoint {
 
     private String timestamp;
-
     private Long responseTime;
 
 }

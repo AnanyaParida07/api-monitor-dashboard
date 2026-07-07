@@ -19,18 +19,13 @@ public class MonitoredApiController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public MonitoredApi create(
-            @Valid @RequestBody ApiRequest request) {
-
+    public MonitoredApi create(@Valid @RequestBody ApiRequest request) {
         return service.create(request);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public MonitoredApi update(
-            @PathVariable Long id,
-            @Valid @RequestBody ApiRequest request) {
-
+    public MonitoredApi update(@PathVariable Long id, @Valid @RequestBody ApiRequest request) {
         return service.update(id, request);
     }
 
@@ -48,9 +43,7 @@ public class MonitoredApiController {
 
 
     @GetMapping("/{id}")
-    public MonitoredApi getById(
-            @PathVariable Long id) {
-
+    public MonitoredApi getById(@PathVariable Long id) {
         return service.getById(id);
     }
 }

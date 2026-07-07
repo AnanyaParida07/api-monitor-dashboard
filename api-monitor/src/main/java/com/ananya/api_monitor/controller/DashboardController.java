@@ -19,14 +19,13 @@ public class DashboardController {
 
     @GetMapping
     public DashboardResponse getDashboard() {
-
         return dashboardService.getDashboard();
     }
+
+
     @GetMapping("/response-trend")
     public List<ResponseTimePoint>
     getResponseTrend() {
-
-        return dashboardService
-                .getResponseTrend();
+        return dashboardService.getResponseTrend();
     }
 }

@@ -20,46 +20,39 @@ import {
   ApexTooltip,
   ApexFill,
   ApexMarkers,
-  ApexYAxis
+  ApexYAxis,
 } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule, NgApexchartsModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    NgApexchartsModule,
+  ],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-
-  private dashboardService =
-    inject(DashboardService);
+  private dashboardService = inject(DashboardService);
   private destroyRef = inject(DestroyRef);
-
-
-  // dashboard?: DashboardResponse;
   public pieSeries: ApexNonAxisChartSeries = [];
-
   public pieChart: ApexChart = {
     type: 'donut',
     height: 350,
     toolbar: {
-      show: false
-    }
+      show: false,
+    },
   };
 
-  public pieColors = [
-    '#10B981',
-    '#EF4444'
-  ];
+  public pieColors = ['#10B981', '#EF4444'];
 
-  public pieLabels: string[] = [
-    'Healthy',
-    'Failed'
-  ];
+  public pieLabels: string[] = ['Healthy', 'Failed'];
 
   public pieLegend: ApexLegend = {
-    position: 'bottom'
+    position: 'bottom',
   };
 
   public pieResponsive: ApexResponsive[] = [
@@ -67,50 +60,49 @@ export class DashboardComponent implements OnInit {
       breakpoint: 480,
       options: {
         chart: {
-          width: 300
-        }
-      }
-    }
+          width: 300,
+        },
+      },
+    },
   ];
 
-  public responseSeries:
-    ApexAxisChartSeries = [];
+  public responseSeries: ApexAxisChartSeries = [];
 
   public responseChart: ApexChart = {
     type: 'line',
     height: 350,
     toolbar: {
-      show: false
+      show: false,
     },
     zoom: {
-      enabled: false
+      enabled: false,
     },
     animations: {
       enabled: true,
       // easing: 'easeinout',
-      speed: 800
-    }
+      speed: 800,
+    },
   };
 
   public responseStroke: ApexStroke = {
     curve: 'smooth',
-    width: 4
+    width: 4,
   };
 
   public responseDataLabels: ApexDataLabels = {
-    enabled: false
+    enabled: false,
   };
 
   public responseGrid: ApexGrid = {
     borderColor: '#E5E7EB',
-    strokeDashArray: 5
+    strokeDashArray: 5,
   };
 
   public responseTooltip: ApexTooltip = {
     theme: 'light',
     y: {
-      formatter: (value) => `${value} ms`
-    }
+      formatter: (value) => `${value} ms`,
+    },
   };
 
   public responseFill: ApexFill = {
@@ -119,109 +111,76 @@ export class DashboardComponent implements OnInit {
       shadeIntensity: 1,
       opacityFrom: 0.45,
       opacityTo: 0.05,
-      stops: [0, 100]
-    }
+      stops: [0, 100],
+    },
   };
 
   public responseMarkers: ApexMarkers = {
     size: 5,
     hover: {
-      size: 8
-    }
+      size: 8,
+    },
   };
 
   public responseYAxis: ApexYAxis = {
     title: {
-      text: 'Response Time (ms)'
-    }
+      text: 'Response Time (ms)',
+    },
   };
-
-
 
   public responseXAxis: ApexXAxis = {
     categories: [],
     labels: {
-      rotate: -45
-    }
+      rotate: -45,
+    },
   };
 
   dashboard: DashboardResponse = {
     totalApis: 0,
     healthyApis: 0,
     failedApis: 0,
-    averageResponseTime: 0
+    averageResponseTime: 0,
   };
 
   loading = false;
   lastRefresh = new Date();
 
-
-
   ngOnInit(): void {
-
     this.loadDashboard();
 
     interval(30000)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef)
-      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-
         this.loadDashboard();
-
       });
   }
 
-
   loadDashboard(): void {
-
     this.loading = true;
+    this.dashboardService.getDashboard().subscribe({
+      next: (response) => {
+        this.dashboard = response;
+        this.pieSeries = [response.healthyApis, response.failedApis];
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
 
-    this.dashboardService
-      .getDashboard()
-      .subscribe({
-        next: response => {
+        this.loading = false;
+      },
+    });
 
-          this.dashboard = response;
-
-          this.pieSeries = [
-            response.healthyApis,
-            response.failedApis
-          ];
-
-          this.loading = false;
+    this.dashboardService.getResponseTrend().subscribe((data) => {
+      this.responseSeries = [
+        {
+          name: 'Response Time',
+          data: data.map((x) => x.responseTime).reverse(),
         },
-        error: err => {
+      ];
 
-          console.error(err);
-
-          this.loading = false;
-        }
-      });
-
-    this.dashboardService
-      .getResponseTrend()
-      .subscribe(data => {
-
-        this.responseSeries = [
-          {
-            name: 'Response Time',
-
-            data: data
-              .map(x => x.responseTime)
-              .reverse()
-          }
-        ];
-
-        this.responseXAxis = {
-
-          categories: data
-            .map(x => x.timestamp)
-            .reverse()
-
-        };
-
-      });
-
+      this.responseXAxis = {
+        categories: data.map((x) => x.timestamp).reverse(),
+      };
+    });
   }
 }

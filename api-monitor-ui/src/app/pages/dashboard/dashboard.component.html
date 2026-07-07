@@ -1,210 +1,122 @@
 <div class="dashboard-container">
+  <!-- Header -->
 
-    <!-- Header -->
+  <div class="dashboard-header">
+    <div>
+      <h1>API Monitoring Dashboard</h1>
 
-    <div class="dashboard-header">
-
-        <div>
-
-            <h1>API Monitoring Dashboard</h1>
-
-            <p>
-                Monitor the health and performance of your APIs in real time.
-            </p>
-
-        </div>
-
-        <div class="last-refresh">
-
-            <span>Last Updated</span>
-
-            <strong>
-
-                {{ lastRefresh | date:'mediumTime' }}
-
-            </strong>
-
-        </div>
-
+      <p>Monitor the health and performance of your APIs in real time.</p>
     </div>
 
-    @if(loading){
+    <div class="last-refresh">
+      <span>Last Updated</span>
 
+      <strong>
+        {{ lastRefresh | date: "mediumTime" }}
+      </strong>
+    </div>
+  </div>
+
+  @if (loading) {
     <div class="spinner-container">
-
-        <mat-spinner diameter="60"></mat-spinner>
-
+      <mat-spinner diameter="60"></mat-spinner>
     </div>
-
-    }
-
-    @else {
-
+  } @else {
     <!-- Statistics -->
 
     <div class="dashboard-grid">
+      <mat-card class="dashboard-card total-card">
+        <mat-card-title> 📡 Total APIs </mat-card-title>
 
-        <mat-card class="dashboard-card total-card">
+        <mat-card-content>
+          <div class="card-value">
+            {{ dashboard.totalApis }}
+          </div>
 
-            <mat-card-title>
+          <div class="card-description">Registered APIs</div>
+        </mat-card-content>
+      </mat-card>
 
-                📡 Total APIs
+      <mat-card class="dashboard-card healthy-card">
+        <mat-card-title> 🟢 Healthy APIs </mat-card-title>
 
-            </mat-card-title>
+        <mat-card-content>
+          <div class="card-value">
+            {{ dashboard.healthyApis }}
+          </div>
 
-            <mat-card-content>
+          <div class="card-description">Currently Running</div>
+        </mat-card-content>
+      </mat-card>
 
-                <div class="card-value">
+      <mat-card class="dashboard-card failed-card">
+        <mat-card-title> 🔴 Failed APIs </mat-card-title>
 
-                    {{ dashboard.totalApis }}
+        <mat-card-content>
+          <div class="card-value">
+            {{ dashboard.failedApis }}
+          </div>
 
-                </div>
+          <div class="card-description">Need Attention</div>
+        </mat-card-content>
+      </mat-card>
 
-                <div class="card-description">
+      <mat-card class="dashboard-card response-card">
+        <mat-card-title> ⚡ Avg Response </mat-card-title>
 
-                    Registered APIs
+        <mat-card-content>
+          <div class="card-value">
+            {{ dashboard.averageResponseTime | number: "1.0-0" }}
+            <span class="ms">ms</span>
+          </div>
 
-                </div>
-
-            </mat-card-content>
-
-        </mat-card>
-
-        <mat-card class="dashboard-card healthy-card">
-
-            <mat-card-title>
-
-                🟢 Healthy APIs
-
-            </mat-card-title>
-
-            <mat-card-content>
-
-                <div class="card-value">
-
-                    {{ dashboard.healthyApis }}
-
-                </div>
-
-                <div class="card-description">
-
-                    Currently Running
-
-                </div>
-
-            </mat-card-content>
-
-        </mat-card>
-
-        <mat-card class="dashboard-card failed-card">
-
-            <mat-card-title>
-
-                🔴 Failed APIs
-
-            </mat-card-title>
-
-            <mat-card-content>
-
-                <div class="card-value">
-
-                    {{ dashboard.failedApis }}
-
-                </div>
-
-                <div class="card-description">
-
-                    Need Attention
-
-                </div>
-
-            </mat-card-content>
-
-        </mat-card>
-
-        <mat-card class="dashboard-card response-card">
-
-            <mat-card-title>
-
-                ⚡ Avg Response
-
-            </mat-card-title>
-
-            <mat-card-content>
-
-                <div class="card-value">
-
-                    {{ dashboard.averageResponseTime | number:'1.0-0' }}
-                    <span class="ms">ms</span>
-
-                </div>
-
-                <div class="card-description">
-
-                    Average Latency
-
-                </div>
-
-            </mat-card-content>
-
-        </mat-card>
-
+          <div class="card-description">Average Latency</div>
+        </mat-card-content>
+      </mat-card>
     </div>
 
     <!-- Charts -->
 
     <div class="chart-grid">
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title> 📈 Response Time Trend </mat-card-title>
+        </mat-card-header>
 
-        <mat-card class="chart-card">
+        <mat-card-content>
+          <apx-chart
+            [series]="responseSeries"
+            [chart]="responseChart"
+            [xaxis]="responseXAxis"
+            [stroke]="responseStroke"
+            [dataLabels]="responseDataLabels"
+            [grid]="responseGrid"
+            [tooltip]="responseTooltip"
+            [fill]="responseFill"
+            [markers]="responseMarkers"
+            [yaxis]="responseYAxis"
+          >
+          </apx-chart>
+        </mat-card-content>
+      </mat-card>
 
-            <mat-card-header>
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title> 🥧 API Status Distribution </mat-card-title>
+        </mat-card-header>
 
-                <mat-card-title>
-
-                    📈 Response Time Trend
-
-                </mat-card-title>
-
-            </mat-card-header>
-
-            <mat-card-content>
-
-                <apx-chart [series]="responseSeries" [chart]="responseChart" [xaxis]="responseXAxis"
-                    [stroke]="responseStroke" [dataLabels]="responseDataLabels" [grid]="responseGrid"
-                    [tooltip]="responseTooltip" [fill]="responseFill" [markers]="responseMarkers"
-                    [yaxis]="responseYAxis">
-
-                </apx-chart>
-
-            </mat-card-content>
-
-        </mat-card>
-
-        <mat-card class="chart-card">
-
-            <mat-card-header>
-
-                <mat-card-title>
-
-                    🥧 API Status Distribution
-
-                </mat-card-title>
-
-            </mat-card-header>
-
-            <mat-card-content>
-
-                <apx-chart [series]="pieSeries" [chart]="pieChart" [labels]="pieLabels" [legend]="pieLegend"
-                    [responsive]="pieResponsive" [colors]="pieColors">
-
-                </apx-chart>
-
-            </mat-card-content>
-
-        </mat-card>
-
+        <mat-card-content>
+          <apx-chart
+            [series]="pieSeries"
+            [chart]="pieChart"
+            [labels]="pieLabels"
+            [legend]="pieLegend"
+            [responsive]="pieResponsive"
+            [colors]="pieColors"
+          >
+          </apx-chart>
+        </mat-card-content>
+      </mat-card>
     </div>
-
-    }
-
+  }
 </div>

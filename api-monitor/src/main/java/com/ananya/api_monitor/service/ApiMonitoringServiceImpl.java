@@ -15,8 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ApiMonitoringServiceImpl
-        implements ApiMonitoringService {
+public class ApiMonitoringServiceImpl implements ApiMonitoringService {
 
     private final MonitoredApiRepository apiRepository;
     private final ApiCheckHistoryRepository historyRepository;
@@ -32,69 +31,31 @@ public class ApiMonitoringServiceImpl
     }
 
     private void checkApi(MonitoredApi api) {
-        long startTime =
-                System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
         try {
-            ResponseEntity<String> response =
-                    restTemplate.exchange(
-                            api.getUrl(),
-                            HttpMethod.valueOf(api.getMethod()),
-                            null,
-                            String.class
-                    );
+            ResponseEntity<String> response = restTemplate.exchange(
+                    api.getUrl(), HttpMethod.valueOf(api.getMethod()), null, String.class);
 
-            long responseTime =
-                    System.currentTimeMillis()
-                            - startTime;
+            long responseTime = System.currentTimeMillis() - startTime;
 
             String status;
-            if (response.getStatusCode().value()
-                    == api.getExpectedStatus()) {
+            if (response.getStatusCode().value() == api.getExpectedStatus()) {
                 status = "UP";
             } else {
                 status = "DOWN";
             }
-            ApiCheckHistory history =
-                    ApiCheckHistory.builder()
-                            .status(status)
-                            .statusCode(response.getStatusCode().value())
-                            .responseTime(responseTime)
-                            .checkedAt(LocalDateTime.now())
-                            .monitoredApi(api)
-                            .build();
-            System.out.println("Status      : " + history.getStatus());
-            System.out.println("Status Code : " + history.getStatusCode());
-            System.out.println("Response    : " + history.getResponseTime());
-            System.out.println("Error Msg   : " + history.getErrorMessage());
+
+            ApiCheckHistory history = ApiCheckHistory.builder()
+                    .status(status).statusCode(response.getStatusCode().value())
+                    .responseTime(responseTime).checkedAt(LocalDateTime.now()).monitoredApi(api).build();
             historyRepository.save(history);
-        } catch (Exception ex) {
-//            ApiCheckHistory history =
-//                    ApiCheckHistory.builder()
-//                            .status("DOWN")
-//                            .errorMessage(
-//                                    ex.getMessage() != null
-//                                            ? ex.getMessage().substring(0, Math.min(ex.getMessage().length(), 250))
-//                                            : null
-//                            ).checkedAt(LocalDateTime.now())
-//                            .monitoredApi(api)
-//                            .build();
-//            historyRepository.save(history);
-
-            long responseTime =
-                    System.currentTimeMillis() - startTime;
-
-            ApiCheckHistory history =
-                    ApiCheckHistory.builder()
-                            .status("DOWN")
-                            .responseTime(responseTime)
-                            .errorMessage(
-                                    ex.getMessage() != null
-                                            ? ex.getMessage().substring(0, Math.min(ex.getMessage().length(), 250))
-                                            : null
-                            ).checkedAt(LocalDateTime.now())
-                            .monitoredApi(api)
-                            .build();
-
+        }
+        catch (Exception ex) {
+            long responseTime = System.currentTimeMillis() - startTime;
+            ApiCheckHistory history = ApiCheckHistory.builder().status("DOWN")
+                    .responseTime(responseTime).errorMessage(ex.getMessage() != null ? ex.getMessage()
+                            .substring(0, Math.min(ex.getMessage().length(), 250)) : null)
+                            .checkedAt(LocalDateTime.now()).monitoredApi(api).build();
             historyRepository.save(history);
         }
     }

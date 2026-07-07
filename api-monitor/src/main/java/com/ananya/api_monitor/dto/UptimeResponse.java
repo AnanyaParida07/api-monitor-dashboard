@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 public class UptimeResponse {
 
     private double uptimePercentage;
-
     private long totalChecks;
-
     private long successfulChecks;
 }

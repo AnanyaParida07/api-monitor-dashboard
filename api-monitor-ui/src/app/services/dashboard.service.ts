@@ -5,10 +5,9 @@ import { DashboardResponse } from '../models/dashboard-response';
 import { ResponseTimePoint } from '../models/response-time-point';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DashboardService {
-
   private http = inject(HttpClient);
 
   private apiUrl = 'http://localhost:7070/api/dashboard';
@@ -18,9 +17,8 @@ export class DashboardService {
   }
 
   getResponseTrend() {
-
-  return this.http.get<ResponseTimePoint[]>(
-    'http://localhost:7070/api/dashboard/response-trend'
-  );
-}
+    return this.http.get<ResponseTimePoint[]>(
+      'http://localhost:7070/api/dashboard/response-trend',
+    );
+  }
 }
