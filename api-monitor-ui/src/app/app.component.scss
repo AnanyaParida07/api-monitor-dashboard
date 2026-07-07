@@ -98,6 +98,22 @@
   padding: 30px;
 }
 
+.footer {
+  margin-top: 40px;
+  padding: 20px;
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+  border-top: 1px solid #e2e8f0;
+  background: white;
+}
+
+.footer div:first-child {
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
 /* RESPONSIVE */
 
 @media (max-width: 900px) {

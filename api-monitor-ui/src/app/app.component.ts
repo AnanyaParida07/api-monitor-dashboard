@@ -28,6 +28,7 @@ export class AppComponent {
   title = 'api-monitor-ui';
   private router = inject(Router);
   protected authService = inject(AuthService);
+  currentYear = new Date().getFullYear();
 
   logout() {
     localStorage.removeItem('token');

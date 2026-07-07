@@ -17,22 +17,21 @@ export class LoginComponent {
   username = '';
   password = '';
 
-  login() {
-    this.authService
-      .login({
-        username: this.username,
+loginError = '';
 
-        password: this.password,
-      })
-      .subscribe({
-        next: (response) => {
-          console.log(response);
-          localStorage.setItem('token', response.token);
-          this.router.navigate(['/']);
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
-  }
+login() {
+  this.loginError = '';
+  this.authService.login({
+    username: this.username,
+    password: this.password
+  }).subscribe({
+    next: (response) => {
+      localStorage.setItem('token', response.token);
+      this.router.navigate(['/']);
+    },
+    error: () => {
+      this.loginError = 'Invalid username or password.';
+    }
+  });
+}
 }
