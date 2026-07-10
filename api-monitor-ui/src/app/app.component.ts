@@ -9,17 +9,23 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from './services/auth.service';
 import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule,
     RouterOutlet,
-    RouterLink,
     RouterLinkActive,
+    RouterLink,
+    CommonModule,
     MatToolbarModule,
     MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+    MatDividerModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -13,25 +14,29 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private notification = inject(NotificationService);
 
   username = '';
   password = '';
 
-loginError = '';
+  loginError = '';
 
-login() {
-  this.loginError = '';
-  this.authService.login({
-    username: this.username,
-    password: this.password
-  }).subscribe({
-    next: (response) => {
-      localStorage.setItem('token', response.token);
-      this.router.navigate(['/']);
-    },
-    error: () => {
-      this.loginError = 'Invalid username or password.';
-    }
-  });
-}
+  login() {
+    this.loginError = '';
+    this.authService
+      .login({
+        username: this.username,
+        password: this.password,
+      })
+      .subscribe({
+        next: (response) => {
+          localStorage.setItem('token', response.token);
+          this.notification.success('Welcome back!');
+          this.router.navigate(['/']);
+        },
+        error: () => {
+          this.notification.error('Invalid username or password');
+        },
+      });
+  }
 }

@@ -51,7 +51,7 @@
           mat-raised-button
           color="warn"
           [disabled]="user.username === authService.getUsername()"
-          (click)="deleteUser(user.id)"
+          (click)="deleteUser(user)"
         >
           Delete
         </button>

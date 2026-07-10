@@ -9,6 +9,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { DeleteDialogComponent } from '../../shared/delete-dialog/delete-dialog.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-users',
@@ -19,15 +23,18 @@ import { AuthService } from '../../services/auth.service';
     MatCardModule,
     MatButtonModule,
     FormsModule,
+    MatDialogModule,
+    MatSnackBarModule,
   ],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent implements OnInit {
   private userService = inject(UserService);
-    protected authService = inject(AuthService);
-
-
+  protected authService = inject(AuthService);
+  private dialog = inject(MatDialog);
+  private snackBar = inject(MatSnackBar);
+  private notification = inject(NotificationService);
   users: UserResponse[] = [];
 
   filteredUsers: UserResponse[] = [];
@@ -40,7 +47,6 @@ export class UsersComponent implements OnInit {
   loadUsers() {
     this.userService.getUsers().subscribe((users) => {
       this.users = users;
-
       this.filteredUsers = users;
     });
   }
@@ -53,19 +59,30 @@ export class UsersComponent implements OnInit {
     );
   }
 
-  deleteUser(id: number) {
-    if (!confirm('Are you sure you want to delete this user?')) {
-      return;
-    }
-
-    this.userService.deleteUser(id).subscribe({
-      next: () => {
-        this.loadUsers();
+  deleteUser(user: UserResponse) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '420px',
+      data: {
+        title: 'Delete User',
+        message: `Are you sure you want to delete "${user.username}"?`,
       },
+    });
 
-      error: (err) => {
-        alert(err.error);
-      },
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+
+      this.userService.deleteUser(user.id).subscribe({
+        next: () => {
+          this.loadUsers();
+          this.notification.success('User deleted successfully');
+        },
+
+        error: (err) => {
+          this.notification.error(err.error);
+        },
+      });
     });
   }
 }

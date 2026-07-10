@@ -1,135 +1,92 @@
-:host {
-  display: block;
-  background: #f5f7fb;
-}
-
-/* NAVBAR */
-
 .navbar {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
   height: 72px;
-  padding: 0 35px;
-  background: white !important;
+  background: white;
   color: #1e293b;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  padding: 0 30px;
 }
-
-/* LOGO */
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-
-.logo-icon {
-  font-size: 28px;
-}
-
-.logo-text {
+  gap: 10px;
   font-size: 24px;
   font-weight: 700;
   color: #2563eb;
 }
 
-/* CENTER LINKS */
-
-.spacer {
-  flex: 1;
+.logo mat-icon {
+  color: #2563eb;
 }
 
 .nav-links {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  gap: 10px;
+  margin-left: 40px;
 }
 
 .nav-links a {
   color: #475569;
   font-weight: 600;
-  border-radius: 10px;
-  transition: 0.25s;
+  border-radius: 8px;
 }
 
 .nav-links a:hover {
   background: #eff6ff;
-  color: #2563eb;
 }
 
-/* Active Route */
-
-.active-link {
+.active {
   background: #2563eb;
   color: white !important;
 }
 
-/* USER */
+.spacer {
+  flex: 1;
+}
 
-.user-info {
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
   display: flex;
+  justify-content: center;
+
   align-items: center;
-  gap: 18px;
-  margin-left: 35px;
+
+  color: white;
+
+  font-weight: bold;
+
+  font-size: 18px;
 }
 
-.user-details {
-  display: flex;
-  flex-direction: column;
-  text-align: right;
+.profile-menu {
+  padding: 12px 16px;
 }
 
-.username {
+.profile-name {
   font-weight: 700;
+
   color: #1e293b;
 }
 
-.role {
-  font-size: 12px;
+.profile-role {
   color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
 
-/* CONTENT */
+  font-size: 13px;
+}
 
 .container {
   padding: 30px;
+
+  background: #f5f7fb;
+
+  min-height: calc(100vh - 72px);
 }
 
-.footer {
-  margin-top: 40px;
-  padding: 20px;
-  text-align: center;
-  color: #64748b;
-  font-size: 14px;
-  border-top: 1px solid #e2e8f0;
-  background: white;
-}
-
-.footer div:first-child {
-  font-weight: 600;
-  color: #334155;
-  margin-bottom: 6px;
-}
-
-/* RESPONSIVE */
-
-@media (max-width: 900px) {
-  .navbar {
-    flex-wrap: wrap;
-    height: auto;
-    padding: 15px;
-  }
-
+@media (max-width: 768px) {
   .nav-links {
-    margin-top: 10px;
-    width: 100%;
-    justify-content: center;
-  }
-
-  .user-info {
-    margin-left: auto;
+    display: none;
   }
 }

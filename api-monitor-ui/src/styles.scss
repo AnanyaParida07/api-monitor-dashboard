@@ -8,3 +8,26 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+/* SUCCESS */
+
+.success-snackbar {
+  --mdc-snackbar-container-color: #16a34a !important;
+
+  --mdc-snackbar-supporting-text-color: white !important;
+}
+
+/* ERROR */
+
+.error-snackbar {
+  --mdc-snackbar-container-color: #dc2626 !important;
+
+  --mdc-snackbar-supporting-text-color: white !important;
+}
+
+/* INFO */
+
+.info-snackbar {
+  --mdc-snackbar-container-color: #2563eb !important;
+
+  --mdc-snackbar-supporting-text-color: white !important;
+}
