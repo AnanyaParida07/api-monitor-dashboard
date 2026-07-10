@@ -1,0 +1,149 @@
+:host {
+  display: block;
+
+  padding: 30px;
+
+  background: #f5f7fb;
+
+  min-height: 100vh;
+}
+
+.page-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 25px;
+}
+
+.page-header h1 {
+  margin: 0;
+
+  font-size: 34px;
+
+  color: #1e293b;
+}
+
+.page-header p {
+  margin-top: 8px;
+
+  color: #64748b;
+}
+
+.search-box {
+  margin-bottom: 30px;
+}
+
+.search-box input {
+  width: 100%;
+
+  padding: 16px;
+
+  font-size: 16px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+
+  outline: none;
+}
+
+.users-grid {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+  gap: 25px;
+}
+
+.user-card {
+  padding: 30px;
+
+  border-radius: 18px;
+
+  text-align: center;
+
+  transition: 0.25s;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.user-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.12);
+}
+
+.avatar {
+  width: 70px;
+
+  height: 70px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+
+  color: white;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 30px;
+
+  font-weight: bold;
+
+  margin: auto;
+
+  margin-bottom: 20px;
+}
+
+.role {
+  display: inline-block;
+
+  padding: 6px 16px;
+
+  border-radius: 25px;
+
+  margin: 15px 0;
+
+  font-weight: 600;
+}
+
+.admin {
+  background: #dbeafe;
+
+  color: #1d4ed8;
+}
+
+.user {
+  background: #dcfce7;
+
+  color: #15803d;
+}
+
+.buttons {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+
+    gap: 20px;
+
+    align-items: flex-start;
+  }
+}

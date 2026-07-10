@@ -27,6 +27,7 @@
     >
       Create API
     </a>
+    <a *ngIf="authService.isAdmin()" mat-button routerLink="/users"> Users </a>
   </nav>
 
   <div class="user-info">

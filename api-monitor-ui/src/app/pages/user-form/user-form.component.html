@@ -1,0 +1,115 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h1>
+        @if (isEditMode) {
+          Edit User
+        } @else {
+          Create User
+        }
+      </h1>
+
+      <p>
+        @if (isEditMode) {
+          Update user information and role.
+        } @else {
+          Create a new application user.
+        }
+      </p>
+    </div>
+  </div>
+
+  <mat-card class="form-card">
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <!-- Username -->
+
+        <mat-form-field appearance="outline">
+          <mat-label> Username </mat-label>
+
+          <input matInput formControlName="username" />
+
+          @if (form.get("username")?.invalid && form.get("username")?.touched) {
+            <mat-error> Username is required </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Password -->
+
+        <mat-form-field appearance="outline">
+          <mat-label> Password </mat-label>
+
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+          />
+
+          @if (isEditMode) {
+            <mat-hint> Leave blank to keep the current password </mat-hint>
+          }
+
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword = !hidePassword"
+          >
+            <mat-icon>
+              {{ hidePassword ? "visibility_off" : "visibility" }}
+            </mat-icon>
+          </button>
+
+          @if (form.get("password")?.invalid && form.get("password")?.touched) {
+            <mat-error> Password is required </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Password Strength -->
+
+        @if (form.get("password")?.value) {
+          <div class="password-strength">
+            @if (form.get("password")?.value!.length < 6) {
+              <span class="weak"> Weak Password </span>
+            } @else if (form.get("password")?.value!.length < 10) {
+              <span class="medium"> Medium Password </span>
+            } @else {
+              <span class="strong"> Strong Password </span>
+            }
+          </div>
+        }
+
+        <!-- Role -->
+
+        <mat-form-field appearance="outline">
+          <mat-label> Role </mat-label>
+
+          <mat-select formControlName="role">
+            <mat-option value="USER"> USER </mat-option>
+
+            <mat-option value="ADMIN"> ADMIN </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="button-row">
+          <button
+            mat-stroked-button
+            color="primary"
+            type="button"
+            (click)="router.navigate(['/users'])"
+          >
+            Cancel
+          </button>
+
+          <button mat-raised-button color="primary" type="submit">
+            @if (isEditMode) {
+              Update User
+            } @else {
+              Create User
+            }
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
