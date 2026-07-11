@@ -80,6 +80,11 @@ export class UserFormComponent {
         });
     } else {
       this.userService.createUser(this.form.value as any).subscribe(() => {
+        this.notification.success(
+            this.isEditMode
+              ? 'User updated successfully'
+              : 'User created successfully',
+          );
         this.router.navigate(['/users']);
       });
     }

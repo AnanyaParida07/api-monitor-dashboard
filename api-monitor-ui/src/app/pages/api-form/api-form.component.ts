@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ApiMonitorService } from '../../services/api-monitor.service';
 import { NotificationService } from '../../services/notification.service';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-api-form',
@@ -22,6 +24,7 @@ import { NotificationService } from '../../services/notification.service';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './api-form.component.html',
   styleUrls: ['./api-form.component.scss'],

@@ -1,56 +1,104 @@
-<mat-toolbar class="navbar">
-  <div class="logo">
-    <mat-icon> monitor_heart </mat-icon>
+@if (!isLoginPage) {
 
-    <span> API Monitor </span>
-  </div>
+  <mat-toolbar class="navbar">
+    <div class="logo">
+      <div class="logo-icon">
+        <mat-icon>monitor_heart</mat-icon>
+      </div>
 
-  <div class="nav-links">
-    <a
-      mat-button
-      routerLink="/"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >
-      Dashboard
-    </a>
-
-    <a mat-button routerLink="/apis" routerLinkActive="active"> APIs </a>
-
-    @if (authService.isAdmin()) {
-      <a mat-button routerLink="/users" routerLinkActive="active"> Users </a>
-    }
-  </div>
-
-  <span class="spacer"></span>
-
-  <button mat-icon-button [matMenuTriggerFor]="profileMenu">
-    <div class="avatar">
-      {{ authService.getUsername().charAt(0).toUpperCase() }}
-    </div>
-  </button>
-</mat-toolbar>
-
-<mat-menu #profileMenu="matMenu">
-  <div class="profile-menu">
-    <div class="profile-name">
-      {{ authService.getUsername() }}
+      <div class="logo-text">
+        <span class="title">API Monitor</span>
+        <span class="subtitle">Monitoring Dashboard</span>
+      </div>
     </div>
 
-    <div class="profile-role">
-      {{ authService.getRole() }}
+    <div class="nav-links">
+      <a
+        mat-button
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+
+        <mat-icon>dashboard</mat-icon>
+        Dashboard
+
+      </a>
+
+      <a mat-button routerLink="/apis" routerLinkActive="active">
+
+        <mat-icon>api</mat-icon>
+        APIs
+
+      </a>
+
+      @if (authService.isAdmin()) {
+
+        <a mat-button routerLink="/users" routerLinkActive="active">
+
+          <mat-icon>group</mat-icon>
+          Users
+
+        </a>
+
+      }
+
     </div>
+
+    <span class="spacer"></span>
+
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="profileMenu"
+      class="profile-button">
+
+      <div class="avatar">
+
+        {{ authService.getUsername().charAt(0).toUpperCase() }}
+
+      </div>
+
+    </button>
+
+  </mat-toolbar>
+
+  <mat-menu #profileMenu="matMenu">
+
+    <div class="profile-menu">
+
+      <div class="profile-name">
+
+        {{ authService.getUsername() }}
+
+      </div>
+
+      <div class="profile-role">
+
+        {{ authService.getRole() }}
+
+      </div>
+
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <button mat-menu-item (click)="logout()">
+
+      <mat-icon>logout</mat-icon>
+
+      Logout
+
+    </button>
+
+  </mat-menu>
+
+  <div class="container">
+
+    <router-outlet></router-outlet>
+
   </div>
 
-  <mat-divider></mat-divider>
+} @else {
 
-  <button mat-menu-item (click)="logout()">
-    <mat-icon> logout </mat-icon>
-
-    Logout
-  </button>
-</mat-menu>
-
-<div class="container">
   <router-outlet></router-outlet>
-</div>
+
+}

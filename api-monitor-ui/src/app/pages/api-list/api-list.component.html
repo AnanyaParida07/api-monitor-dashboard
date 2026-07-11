@@ -1,55 +1,88 @@
+<!-- ================= Header ================= -->
+
 <div class="page-header">
-  <div>
+  <div class="header-content">
+    <span class="page-tag">
+      <mat-icon>api</mat-icon>
+      API Management
+    </span>
+
     <h1>API Management</h1>
 
-    <p>Monitor and manage all your APIs.</p>
+    <p>
+      Manage monitored APIs, review their health status and keep your services
+      running reliably.
+    </p>
   </div>
 
   @if (auth.isAdmin()) {
-    <button mat-raised-button color="primary" routerLink="/apis/new">
-      <span class="material-icons"> add </span>
+    <button
+      mat-flat-button
+      color="primary"
+      routerLink="/apis/new"
+      class="create-btn"
+    >
+      <mat-icon>add</mat-icon>
 
       Create API
     </button>
   }
 </div>
 
-<div class="filters">
-  <mat-form-field appearance="outline">
-    <mat-label> Search APIs </mat-label>
+<!-- ================= Filters ================= -->
 
-    <input
-      matInput
-      placeholder="Search by name..."
-      [(ngModel)]="searchText"
-      (input)="applyFilters()"
-    />
-  </mat-form-field>
+<div class="filter-card">
+  <div class="filter-title">
+    <mat-icon>filter_list</mat-icon>
 
-  <mat-form-field appearance="outline">
-    <mat-label> Status </mat-label>
+    <span>Filters</span>
+  </div>
 
-    <mat-select [(ngModel)]="statusFilter" (selectionChange)="applyFilters()">
-      <mat-option value="ALL"> All </mat-option>
+  <div class="filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Search APIs</mat-label>
 
-      <mat-option value="UP"> UP </mat-option>
+      <mat-icon matPrefix>search</mat-icon>
 
-      <mat-option value="DOWN"> DOWN </mat-option>
+      <input
+        matInput
+        placeholder="Search by API name..."
+        [(ngModel)]="searchText"
+        (input)="applyFilters()"
+      />
+    </mat-form-field>
 
-      <mat-option value="UNKNOWN"> UNKNOWN </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+
+      <mat-icon matPrefix>monitor_heart</mat-icon>
+
+      <mat-select [(ngModel)]="statusFilter" (selectionChange)="applyFilters()">
+        <mat-option value="ALL">All APIs</mat-option>
+
+        <mat-option value="UP">Healthy</mat-option>
+
+        <mat-option value="DOWN">Failed</mat-option>
+
+        <mat-option value="UNKNOWN">Unknown</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 </div>
 
 @if (loading) {
   <div class="spinner-container">
-    <mat-spinner></mat-spinner>
+    <mat-spinner diameter="50"></mat-spinner>
+    <h3>Loading APIs...</h3>
+    <p>Fetching latest API status.</p>
   </div>
 } @else if (filteredApis.length === 0) {
   <div class="empty-state">
+    <mat-icon>cloud_off</mat-icon>
+
     <h2>No APIs Found</h2>
 
-    <p>Try changing your search or filter.</p>
+    <p>Try changing the search text or status filter.</p>
   </div>
 } @else {
   <table mat-table [dataSource]="dataSource" matSort class="api-table">
@@ -71,15 +104,27 @@
       <td mat-cell *matCellDef="let api">
         @switch (api.latestStatus?.status) {
           @case ("UP") {
-            <span class="badge up"> 🟢 UP </span>
+            <span class="status-chip healthy">
+              <mat-icon>check_circle</mat-icon>
+
+              Healthy
+            </span>
           }
 
           @case ("DOWN") {
-            <span class="badge down"> 🔴 DOWN </span>
+            <span class="status-chip failed">
+              <mat-icon>error</mat-icon>
+
+              Failed
+            </span>
           }
 
           @default {
-            <span class="badge unknown"> ⚪ UNKNOWN </span>
+            <span class="status-chip unknown">
+              <mat-icon>help</mat-icon>
+
+              Unknown
+            </span>
           }
         }
       </td>
@@ -88,42 +133,55 @@
     <!-- Response -->
 
     <ng-container matColumnDef="responseTime">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Response</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Response Time</th>
 
       <td mat-cell *matCellDef="let api">
-        {{ api.latestStatus?.responseTime }}
+        <div class="response-time">
+          <span class="value">
+            {{ api.latestStatus?.responseTime }}
+          </span>
 
-        ms
+          <span class="unit"> ms </span>
+        </div>
       </td>
     </ng-container>
 
     <!-- Actions -->
 
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
 
       <td mat-cell *matCellDef="let api">
-        <button
-          mat-stroked-button
-          color="primary"
-          [routerLink]="['/apis', api.id]"
-        >
-          View
-        </button>
-
-        @if (auth.isAdmin()) {
+        <div class="action-buttons">
           <button
-            mat-stroked-button
-            color="accent"
-            [routerLink]="['/apis/edit', api.id]"
+            mat-icon-button
+            matTooltip="View Details"
+            color="primary"
+            [routerLink]="['/apis', api.id]"
           >
-            Edit
+            <mat-icon>visibility</mat-icon>
           </button>
 
-          <button mat-raised-button color="warn" (click)="deleteApi(api)">
-            Delete
-          </button>
-        }
+          @if (auth.isAdmin()) {
+            <button
+              mat-icon-button
+              matTooltip="Edit API"
+              color="primary"
+              [routerLink]="['/apis/edit', api.id]"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              matTooltip="Delete API"
+              color="warn"
+              (click)="deleteApi(api)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          }
+        </div>
       </td>
     </ng-container>
 

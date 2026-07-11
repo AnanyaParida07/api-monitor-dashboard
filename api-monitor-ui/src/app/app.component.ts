@@ -25,7 +25,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -39,5 +39,8 @@ export class AppComponent {
   logout() {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
+  }
+  get isLoginPage(): boolean {
+    return this.router.url.startsWith('/login');
   }
 }

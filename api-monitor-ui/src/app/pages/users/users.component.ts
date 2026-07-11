@@ -13,6 +13,11 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../../shared/delete-dialog/delete-dialog.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NotificationService } from '../../services/notification.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-users',
@@ -25,6 +30,11 @@ import { NotificationService } from '../../services/notification.service';
     FormsModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatTooltipModule,
+    MatIconModule,
   ],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
@@ -38,7 +48,12 @@ export class UsersComponent implements OnInit {
   users: UserResponse[] = [];
 
   filteredUsers: UserResponse[] = [];
+  paginatedUsers: UserResponse[] = [];
   searchText = '';
+  displayedColumns = ['avatar', 'username', 'role', 'actions'];
+  pageSize = 5;
+  currentPage = 1;
+  totalPages = 1;
 
   ngOnInit(): void {
     this.loadUsers();
@@ -48,6 +63,7 @@ export class UsersComponent implements OnInit {
     this.userService.getUsers().subscribe((users) => {
       this.users = users;
       this.filteredUsers = users;
+      this.updatePagination();
     });
   }
 
@@ -57,6 +73,10 @@ export class UsersComponent implements OnInit {
     this.filteredUsers = this.users.filter((user) =>
       user.username.toLowerCase().includes(value),
     );
+
+    this.currentPage = 1;
+
+    this.updatePagination();
   }
 
   deleteUser(user: UserResponse) {
@@ -84,5 +104,33 @@ export class UsersComponent implements OnInit {
         },
       });
     });
+  }
+
+  updatePagination() {
+    this.totalPages = Math.max(
+      1,
+      Math.ceil(this.filteredUsers.length / this.pageSize),
+    );
+    const start = (this.currentPage - 1) * this.pageSize;
+
+    const end = start + this.pageSize;
+
+    this.paginatedUsers = this.filteredUsers.slice(start, end);
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+
+      this.updatePagination();
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+
+      this.updatePagination();
+    }
   }
 }
