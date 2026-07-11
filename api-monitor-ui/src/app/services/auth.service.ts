@@ -40,8 +40,19 @@ export class AuthService {
     return JSON.parse(atob(token.split('.')[1]));
   }
 
+  // getUsername(): string {
+  //   return this.getPayload()?.sub;
+  // }
   getUsername(): string {
-    return this.getPayload()?.sub;
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      return '';
+    }
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+
+    return payload.sub;
   }
 
   getRole(): string {

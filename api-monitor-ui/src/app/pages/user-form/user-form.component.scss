@@ -1,5 +1,6 @@
 .page-container {
-  max-width: 920px;
+  max-width: 900px;
+
   margin: 0 auto;
 }
 
@@ -8,12 +9,14 @@
 ========================================== */
 
 .page-header {
-  margin-bottom: 32px;
+  margin-bottom: 30px;
 }
 
 .page-tag {
   display: inline-flex;
+
   align-items: center;
+
   gap: 8px;
 
   padding: 6px 14px;
@@ -31,7 +34,9 @@
 
 .page-tag mat-icon {
   width: 18px;
+
   height: 18px;
+
   font-size: 18px;
 }
 
@@ -49,8 +54,6 @@
   margin-top: 10px;
 
   color: var(--text-secondary);
-
-  max-width: 650px;
 
   line-height: 1.6;
 }
@@ -84,7 +87,7 @@ mat-card-content {
 
   gap: 18px;
 
-  margin-bottom: 26px;
+  margin-bottom: 24px;
 }
 
 .second-section {
@@ -116,19 +119,17 @@ mat-card-content {
 }
 
 .section-icon mat-icon {
-  font-size: 26px;
-
   width: 26px;
 
   height: 26px;
+
+  font-size: 26px;
 }
 
 .section-header h2 {
   margin: 0;
 
   font-size: 21px;
-
-  font-weight: 700;
 
   color: var(--text-primary);
 }
@@ -140,33 +141,25 @@ mat-card-content {
 }
 
 /* ==========================================
-   FORM GRID
+   FORM FIELDS
 ========================================== */
-
-.form-grid {
-  display: grid;
-
-  grid-template-columns: repeat(2, 1fr);
-
-  gap: 22px;
-}
 
 mat-form-field {
   width: 100%;
 
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
-
-/* ==========================================
-   MATERIAL FORM IMPROVEMENTS
-========================================== */
 
 .mat-mdc-text-field-wrapper {
   border-radius: 12px !important;
 }
 
-.mat-mdc-form-field-subscript-wrapper {
-  padding-left: 4px;
+.mat-mdc-form-field {
+  transition: var(--transition);
+}
+
+.mat-mdc-form-field:hover {
+  transform: translateY(-1px);
 }
 
 .mat-mdc-form-field-hint {
@@ -179,12 +172,76 @@ mat-form-field {
   font-size: 12px;
 }
 
-.mat-mdc-form-field {
-  transition: var(--transition);
+/* ==========================================
+   PASSWORD STRENGTH
+========================================== */
+
+.strength-wrapper {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin: 6px 0 28px;
+
+  padding: 14px 18px;
+
+  border-radius: 14px;
+
+  background: #f8fafc;
+
+  border: 1px solid var(--border);
 }
 
-.mat-mdc-form-field:hover {
-  transform: translateY(-1px);
+.strength-wrapper span {
+  font-size: 14px;
+
+  font-weight: 600;
+
+  color: var(--text-primary);
+}
+
+.strength-chip {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 6px 14px;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+.strength-chip mat-icon {
+  width: 18px;
+
+  height: 18px;
+
+  font-size: 18px;
+}
+
+.weak {
+  background: rgba(239, 68, 68, 0.12);
+
+  color: var(--danger);
+}
+
+.medium {
+  background: rgba(245, 158, 11, 0.12);
+
+  color: var(--warning);
+}
+
+.strong {
+  background: rgba(16, 185, 129, 0.12);
+
+  color: var(--success);
 }
 
 /* ==========================================
@@ -198,7 +255,7 @@ mat-form-field {
 
   gap: 14px;
 
-  margin-top: 32px;
+  margin-top: 34px;
 
   padding-top: 24px;
 
@@ -217,16 +274,12 @@ mat-form-field {
   transition: var(--transition);
 }
 
-.button-row button mat-icon {
-  margin-right: 6px;
-}
-
 .button-row button:hover {
   transform: translateY(-2px);
 }
 
-.cancel-btn {
-  border-color: var(--border);
+.button-row mat-icon {
+  margin-right: 6px;
 }
 
 /* ==========================================
@@ -238,7 +291,7 @@ mat-form-field {
 }
 
 .form-card {
-  animation: fadeUp 0.55s ease;
+  animation: fadeUp 0.6s ease;
 }
 
 @keyframes fadeUp {
@@ -259,23 +312,21 @@ mat-form-field {
    RESPONSIVE
 ========================================== */
 
-@media (max-width: 900px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 @media (max-width: 768px) {
-  .page-container {
-    padding: 0;
-  }
-
   .header-content h1 {
     font-size: 30px;
   }
 
   mat-card-content {
     padding: 24px !important;
+  }
+
+  .strength-wrapper {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 12px;
   }
 
   .button-row {

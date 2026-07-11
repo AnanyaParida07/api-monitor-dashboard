@@ -6,6 +6,8 @@ import { ApiFormComponent } from './pages/api-form/api-form.component';
 import { LoginComponent } from './pages/login/login.component';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
+import { UsersComponent } from './pages/users/users.component';
+import { UserFormComponent } from './pages/user-form/user-form.component';
 
 export const routes: Routes = [
   {
@@ -36,6 +38,22 @@ export const routes: Routes = [
     component: ApiFormComponent,
     canActivate: [authGuard, adminGuard],
   },
+
+  {
+  path: 'users',
+  component: UsersComponent,
+  canActivate: [authGuard, adminGuard],
+},
+{
+  path: 'users/new',
+  component: UserFormComponent,
+  canActivate: [authGuard, adminGuard],
+},
+{
+  path: 'users/edit/:id',
+  component: UserFormComponent,
+  canActivate: [authGuard, adminGuard],
+},
 
   {
     path: 'apis/:id',

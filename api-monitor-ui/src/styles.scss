@@ -1,5 +1,57 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  /* Primary */
 
+  --primary: #4f46e5;
+  --primary-light: #6366f1;
+  --primary-dark: #3730a3;
+
+  /* Status */
+
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+
+  /* Background */
+
+  --background: #f8fafc;
+  --surface: #ffffff;
+
+  /* Text */
+
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+
+  /* Borders */
+
+  --border: #e2e8f0;
+
+  /* Radius */
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+
+  /* Shadows */
+
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+
+  --shadow-lg: 0 16px 40px rgba(15, 23, 42, 0.12);
+
+  /* Animation */
+
+  --transition: all 0.25s ease;
+}
+
+html,
+body {
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: "Inter", sans-serif;
+}
 html,
 body {
   height: 100%;
@@ -7,4 +59,27 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+/* SUCCESS */
+
+.success-snackbar {
+  --mdc-snackbar-container-color: #16a34a !important;
+
+  --mdc-snackbar-supporting-text-color: white !important;
+}
+
+/* ERROR */
+
+.error-snackbar {
+  --mdc-snackbar-container-color: #dc2626 !important;
+
+  --mdc-snackbar-supporting-text-color: white !important;
+}
+
+/* INFO */
+
+.info-snackbar {
+  --mdc-snackbar-container-color: #2563eb !important;
+
+  --mdc-snackbar-supporting-text-color: white !important;
 }

@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { interval } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatIconModule } from '@angular/material/icon';
 import {
   ApexChart,
   ApexNonAxisChartSeries,
@@ -31,6 +32,7 @@ import {
     MatCardModule,
     MatProgressSpinnerModule,
     NgApexchartsModule,
+    MatIconModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
@@ -41,7 +43,7 @@ export class DashboardComponent implements OnInit {
   public pieSeries: ApexNonAxisChartSeries = [];
   public pieChart: ApexChart = {
     type: 'donut',
-    height: 350,
+    height: 330,
     toolbar: {
       show: false,
     },
@@ -53,6 +55,8 @@ export class DashboardComponent implements OnInit {
 
   public pieLegend: ApexLegend = {
     position: 'bottom',
+    fontSize: '14px',
+    fontWeight: 600,
   };
 
   public pieResponsive: ApexResponsive[] = [
@@ -71,6 +75,7 @@ export class DashboardComponent implements OnInit {
   public responseChart: ApexChart = {
     type: 'line',
     height: 350,
+    foreColor: '#64748B',
     toolbar: {
       show: false,
     },
@@ -86,7 +91,7 @@ export class DashboardComponent implements OnInit {
 
   public responseStroke: ApexStroke = {
     curve: 'smooth',
-    width: 4,
+    width: 5,
   };
 
   public responseDataLabels: ApexDataLabels = {
@@ -95,11 +100,19 @@ export class DashboardComponent implements OnInit {
 
   public responseGrid: ApexGrid = {
     borderColor: '#E5E7EB',
-    strokeDashArray: 5,
+    strokeDashArray: 4,
+    padding: {
+      left: 12,
+      right: 12,
+    },
   };
 
   public responseTooltip: ApexTooltip = {
     theme: 'light',
+
+    marker: {
+      show: true,
+    },
     y: {
       formatter: (value) => `${value} ms`,
     },
@@ -116,7 +129,8 @@ export class DashboardComponent implements OnInit {
   };
 
   public responseMarkers: ApexMarkers = {
-    size: 5,
+    size: 4,
+    strokeWidth: 2,
     hover: {
       size: 8,
     },
@@ -131,7 +145,7 @@ export class DashboardComponent implements OnInit {
   public responseXAxis: ApexXAxis = {
     categories: [],
     labels: {
-      rotate: -45,
+      rotate: -35,
     },
   };
 
@@ -147,7 +161,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDashboard();
-
     interval(30000)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
@@ -165,7 +178,6 @@ export class DashboardComponent implements OnInit {
       },
       error: (err) => {
         console.error(err);
-
         this.loading = false;
       },
     });
@@ -177,7 +189,6 @@ export class DashboardComponent implements OnInit {
           data: data.map((x) => x.responseTime).reverse(),
         },
       ];
-
       this.responseXAxis = {
         categories: data.map((x) => x.timestamp).reverse(),
       };

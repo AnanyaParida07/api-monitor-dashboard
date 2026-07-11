@@ -4,6 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiMonitorService } from '../../services/api-monitor.service';
 import { HistoryResponse } from '../../models/history-response ';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -23,7 +28,16 @@ import { UptimeResponse } from '../../models/uptime-response';
 @Component({
   selector: 'app-api-details',
   standalone: true,
-  imports: [CommonModule, NgApexchartsModule, MatCardModule],
+  imports: [
+    CommonModule,
+    RouterLink,
+    NgApexchartsModule,
+    MatCardModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatButtonModule,
+  ],
   templateUrl: './api-details.component.html',
   styleUrls: ['./api-details.component.scss'],
 })
@@ -33,6 +47,11 @@ export class ApiDetailsComponent implements OnInit {
   apiId!: number;
   uptime?: UptimeResponse;
   history: HistoryResponse[] = [];
+  displayedColumns = ['status', 'response', 'checkedAt'];
+  pageSize = 10;
+  currentPage = 1;
+  totalPages = 1;
+  paginatedHistory: HistoryResponse[] = [];
 
   public chartSeries: ApexAxisChartSeries = [
     {
@@ -131,6 +150,8 @@ export class ApiDetailsComponent implements OnInit {
   loadHistory(): void {
     this.apiService.getHistory(this.apiId).subscribe((data) => {
       this.history = data;
+      this.currentPage = 1;
+      this.updatePagination();
       const latestData = data.slice(0, 20).reverse();
 
       this.chartSeries = [
@@ -157,5 +178,34 @@ export class ApiDetailsComponent implements OnInit {
         },
       };
     });
+  }
+
+  updatePagination() {
+    this.totalPages = Math.max(
+      1,
+      Math.ceil(this.history.length / this.pageSize),
+    );
+
+    const start = (this.currentPage - 1) * this.pageSize;
+
+    const end = start + this.pageSize;
+
+    this.paginatedHistory = this.history.slice(start, end);
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+
+      this.updatePagination();
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+
+      this.updatePagination();
+    }
   }
 }

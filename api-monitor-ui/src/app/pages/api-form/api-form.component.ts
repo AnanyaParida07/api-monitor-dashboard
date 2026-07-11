@@ -9,6 +9,9 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ApiMonitorService } from '../../services/api-monitor.service';
+import { NotificationService } from '../../services/notification.service';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-api-form',
@@ -21,6 +24,7 @@ import { ApiMonitorService } from '../../services/api-monitor.service';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './api-form.component.html',
   styleUrls: ['./api-form.component.scss'],
@@ -30,6 +34,7 @@ export class ApiFormComponent {
   private fb = inject(FormBuilder);
   private apiService = inject(ApiMonitorService);
   protected router = inject(Router);
+  private notification = inject(NotificationService);
 
   isEditMode = false;
   apiId!: number;
@@ -62,15 +67,30 @@ export class ApiFormComponent {
     if (this.form.invalid) {
       return;
     }
+
     if (this.isEditMode) {
-      this.apiService
-        .updateApi(this.apiId, this.form.value as any)
-        .subscribe(() => {
+      this.apiService.updateApi(this.apiId, this.form.value as any).subscribe({
+        next: () => {
+          this.notification.success('API updated successfully');
+
           this.router.navigate(['/apis']);
-        });
+        },
+
+        error: (err) => {
+          this.notification.error(err.error || 'Failed to update API');
+        },
+      });
     } else {
-      this.apiService.createApi(this.form.value as any).subscribe(() => {
-        this.router.navigate(['/apis']);
+      this.apiService.createApi(this.form.value as any).subscribe({
+        next: () => {
+          this.notification.success('API created successfully');
+
+          this.router.navigate(['/apis']);
+        },
+
+        error: (err) => {
+          this.notification.error(err.error || 'Failed to create API');
+        },
       });
     }
   }
