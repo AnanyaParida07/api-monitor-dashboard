@@ -4,19 +4,6 @@ A full-stack enterprise-style API Monitoring Dashboard built using **Spring Boot
 
 The application allows administrators to monitor REST APIs in real time, track response times, analyze uptime statistics, manage monitored APIs, and control user access through Role-Based Access Control (RBAC).
 
----
-
-## 📸 Screenshots
-
-> *(Add screenshots after deployment)*
-
-- Login Page
-- Dashboard
-- API Management
-- API Details
-- User Management
-- Create API
-- Create User
 
 ---
 
