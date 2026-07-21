@@ -40,7 +40,7 @@ export class AppComponent {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
-  get isLoginPage(): boolean {
-    return this.router.url.startsWith('/login');
+  get isAuthPage(): boolean {
+    return this.router.url.startsWith('/login') || this.router.url.startsWith('/register');
   }
 }

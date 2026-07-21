@@ -23,7 +23,7 @@
 
   border-radius: 999px;
 
-  background: rgba(79, 70, 229, 0.08);
+  background: var(--primary-soft);
 
   color: var(--primary);
 
@@ -107,13 +107,13 @@ mat-card-content {
 
   align-items: center;
 
-  background: rgba(79, 70, 229, 0.08);
+  background: var(--primary-soft);
 
   color: var(--primary);
 }
 
 .section-icon.success {
-  background: rgba(16, 185, 129, 0.1);
+  background: var(--success-softer);
 
   color: var(--success);
 }
@@ -189,7 +189,7 @@ mat-form-field {
 
   border-radius: 14px;
 
-  background: #f8fafc;
+  background: var(--background);
 
   border: 1px solid var(--border);
 }
@@ -227,19 +227,19 @@ mat-form-field {
 }
 
 .weak {
-  background: rgba(239, 68, 68, 0.12);
+  background: var(--danger-soft);
 
   color: var(--danger);
 }
 
 .medium {
-  background: rgba(245, 158, 11, 0.12);
+  background: var(--warning-soft);
 
   color: var(--warning);
 }
 
 .strong {
-  background: rgba(16, 185, 129, 0.12);
+  background: var(--success-soft);
 
   color: var(--success);
 }

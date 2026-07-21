@@ -1,6 +1,6 @@
 :host {
   display: block;
-  background: #f5f7fb;
+  background: var(--background-alt);
   min-height: 100vh;
   padding: 30px;
 }
@@ -24,7 +24,7 @@
   gap: 8px;
   padding: 6px 14px;
   border-radius: 999px;
-  background: rgba(79, 70, 229, 0.08);
+  background: var(--primary-soft);
   color: var(--primary);
   font-weight: 600;
   margin-bottom: 14px;
@@ -72,7 +72,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(79, 70, 229, 0.08);
+  background: var(--primary-soft);
   color: var(--primary);
 }
 
@@ -130,22 +130,22 @@
 }
 
 .primary {
-  background: rgba(79, 70, 229, 0.1);
+  background: var(--primary-softer);
   color: var(--primary);
 }
 
 .success {
-  background: rgba(16, 185, 129, 0.12);
+  background: var(--success-soft);
   color: var(--success);
 }
 
 .danger {
-  background: rgba(239, 68, 68, 0.12);
+  background: var(--danger-soft);
   color: var(--danger);
 }
 
 .warning {
-  background: rgba(245, 158, 11, 0.12);
+  background: var(--warning-soft);
 
   color: var(--warning);
 }

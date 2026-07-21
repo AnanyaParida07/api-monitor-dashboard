@@ -29,7 +29,7 @@
 
   border-radius: 999px;
 
-  background: rgba(79, 70, 229, 0.08);
+  background: var(--primary-soft);
 
   color: var(--primary);
 
@@ -113,7 +113,7 @@
 }
 
 .mat-mdc-header-row {
-  background: #f8fafc;
+  background: var(--background);
 }
 
 .mat-mdc-header-cell {
@@ -133,13 +133,13 @@
 }
 
 .mat-mdc-row:hover {
-  background: #f8fafc;
+  background: var(--background);
 }
 
 .mat-mdc-cell {
   padding: 18px;
 
-  border-bottom: 1px solid #eef2f7;
+  border-bottom: 1px solid var(--border-light);
 }
 
 /* ==========================================
@@ -153,9 +153,9 @@
 
   border-radius: 50%;
 
-  background: linear-gradient(135deg, var(--primary), #818cf8);
+  background: var(--avatar-gradient);
 
-  color: white;
+  color: var(--text-on-primary);
 
   display: flex;
 
@@ -203,15 +203,15 @@
 }
 
 .role-chip.admin {
-  background: rgba(79, 70, 229, 0.1);
+  background: var(--primary-softer);
 
   color: var(--primary);
 }
 
 .role-chip.user {
-  background: rgba(14, 165, 233, 0.1);
+  background: var(--info-soft);
 
-  color: #0284c7;
+  color: var(--info-accent);
 }
 
 /* ==========================================
@@ -233,7 +233,7 @@
 .action-buttons button:hover {
   transform: translateY(-2px);
 
-  background: rgba(79, 70, 229, 0.08);
+  background: var(--primary-soft);
 }
 
 /* ==========================================

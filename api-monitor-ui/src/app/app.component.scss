@@ -32,9 +32,9 @@
   justify-content: center;
   align-items: center;
 
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  background: var(--brand-gradient);
 
-  color: white;
+  color: var(--text-on-primary);
 }
 
 .logo-icon mat-icon {
@@ -98,7 +98,7 @@
 
 .nav-links a.active {
   background: var(--primary);
-  color: white !important;
+  color: var(--text-on-primary) !important;
 }
 
 .spacer {
@@ -117,13 +117,13 @@
 
   border-radius: 50%;
 
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  background: var(--brand-gradient);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  color: white;
+  color: var(--text-on-primary);
 
   font-weight: 700;
 

@@ -41,7 +41,7 @@
 
   border-radius: 999px;
 
-  background: rgba(79, 70, 229, 0.08);
+  background: var(--primary-soft);
 
   color: var(--primary);
 
@@ -181,7 +181,7 @@
 .mat-mdc-cell {
   padding: 18px;
 
-  border-bottom: 1px solid #eef2f7;
+  border-bottom: 1px solid var(--border-light);
 }
 
 /* ==================================
@@ -213,20 +213,20 @@
 }
 
 .healthy {
-  background: rgba(16, 185, 129, 0.12);
+  background: var(--success-soft);
 
   color: var(--success);
 }
 
 .failed {
-  background: rgba(239, 68, 68, 0.12);
+  background: var(--danger-soft);
 
   color: var(--danger);
 }
 
 .unknown {
   background: var(--background);
-  color: #64748b;
+  color: var(--text-secondary);
 }
 
 /* ==================================
@@ -274,7 +274,7 @@
 }
 
 .action-buttons button:hover {
-  background: rgba(79, 70, 229, 0.08);
+  background: var(--primary-soft);
 
   transform: translateY(-2px);
 }
@@ -348,9 +348,9 @@
 }
 
 .unknown {
-  background: #e5e7eb;
+  background: var(--surface-neutral);
 
-  color: #6b7280;
+  color: var(--text-neutral);
 }
 
 td button {

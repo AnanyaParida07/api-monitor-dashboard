@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NotificationService } from '../../services/notification.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -11,10 +11,14 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,MatFormFieldModule,
-MatInputModule,
-MatButtonModule,
-MatIconModule],
+  imports: [
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    RouterLink,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -25,7 +29,7 @@ export class LoginComponent {
 
   username = '';
   password = '';
-hidePassword = true;
+  hidePassword = true;
   loginError = '';
 
   login() {
@@ -42,12 +46,10 @@ hidePassword = true;
           this.router.navigate(['/']);
         },
         error: () => {
+          this.loginError = 'Invalid username or password';
 
-  this.loginError = 'Invalid username or password';
-
-  this.notification.error(this.loginError);
-
-}
+          this.notification.error(this.loginError);
+        },
       });
   }
 }

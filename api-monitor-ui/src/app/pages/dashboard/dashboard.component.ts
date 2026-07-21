@@ -109,7 +109,6 @@ export class DashboardComponent implements OnInit {
 
   public responseTooltip: ApexTooltip = {
     theme: 'light',
-
     marker: {
       show: true,
     },
